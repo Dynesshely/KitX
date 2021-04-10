@@ -1,0 +1,112 @@
+﻿<Window x:Class="KitX.AppsBar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KitX"
+        xmlns:src="clr-namespace:KitX"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        Title="AppsBar" x:Name="AppsBarN" ShowInTaskbar="False" Icon="Source/KitX.png"
+        AllowsTransparency="True" WindowStyle="None" Background="{x:Null}" Topmost="True">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid AllowDrop="True" DragEnter="DragEnter_Origin">
+        <DockPanel>
+            <Grid>
+                <Grid x:Name="AppsContainer" MouseLeave="Backgrounder_MouseLeave">
+                    
+                    <!--#region 工具信息提示 -->
+                    <Grid Margin="30,30,20,0" HorizontalAlignment="Left" Height="80" VerticalAlignment="Top">
+                        <Border x:Name="AppInfoBack" Visibility="Hidden" Height="80" CornerRadius="15" Opacity="0.8" Background="{DynamicResource MaterialDesignBackground}"/>
+                        <TextBlock x:Name="AppInfoer" Foreground="#FF009FDA" FontSize="18" Margin="15"/>
+                    </Grid>
+                    <!--#endregion-->
+                    
+                    <!--#region 时间条 -->
+                    <Border x:Name="checker" Width="80" MouseEnter="Border_MouseEnter" VerticalAlignment="Top" Margin="0,30,0,0" Height="15" CornerRadius="5" HorizontalAlignment="Center">
+                        <TextBlock x:Name="timer" FontSize="12" Text="12:00" Foreground="{DynamicResource MaterialDesignSnackbarBackground}" Visibility="{Binding IsChecked, ElementName=TimerToShow, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    <!--#endregion-->
+                    
+                    <Grid x:Name="Docker" Height="80" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Border x:Name="Backgrounder" BorderBrush="Black" CornerRadius="15" Height="{Binding ElementName=Docker, Path=ActualHeight}" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignBackground}"/>
+                        <ScrollViewer Style="{DynamicResource ListViewScrollViewerStyle}" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Right">
+                                    <src:FishEyePanel RenderTransformOrigin="0.5,0.5" Margin="0,10,10,10">
+                                        <materialDesign:PopupBox DockPanel.Dock="Right" StaysOpen="True" IsEnabled="{Binding IsChecked, ElementName=PopupEnabled}">
+                                            <materialDesign:PopupBox.ToggleContent>
+                                                <Grid Margin="5" Width="45" Height="45">
+                                                    <Button Style="{DynamicResource PulseButton}"/>
+                                                    <Image Margin="5" Source="Source/Home2.png" Stretch="Uniform"/>
+                                                </Grid>
+                                            </materialDesign:PopupBox.ToggleContent>
+                                            <StackPanel Orientation="Vertical" Width="200" Margin="8">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox materialDesign:CheckBoxAssist.CheckBoxSize="24" FontSize="18" VerticalAlignment="Center" x:Name="PinToScreen" Content="{DynamicResource AppsBar_Pin}" Click="UpdatePinEvent"/>
+                                                    <Label/>
+                                                    <CheckBox materialDesign:CheckBoxAssist.CheckBoxSize="24" FontSize="18" VerticalAlignment="Center" x:Name="TimerToShow" Content="{DynamicResource AppsBar_ShowTime}" IsChecked="True" IsThreeState="False"/>
+                                                </StackPanel>
+                                                <Label/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <!--时间制选择-->
+                                                    <ComboBox x:Name="TS" SelectedIndex="1" Foreground="{DynamicResource MaterialDesignSnackbarBackground}" FontSize="18" VerticalAlignment="Center">
+                                                        <ComboBoxItem Content="{DynamicResource AppsBar_TimeSystem_12}"/>
+                                                        <ComboBoxItem Content="{DynamicResource AppsBar_TimeSystem_24}"/>
+                                                    </ComboBox>
+                                                    <Label/>
+                                                    <!--位置-->
+                                                    <ComboBox x:Name="LS" SelectedIndex="0" Foreground="{DynamicResource MaterialDesignSnackbarBackground}" FontSize="18" VerticalAlignment="Center">
+                                                        <ComboBoxItem Content="{DynamicResource AppsBar_Location_Top}"/>
+                                                        <ComboBoxItem Content="{DynamicResource AppsBar_Location_Bottom}"/>
+                                                    </ComboBox>
+                                                </StackPanel>
+                                                <Label/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button FontSize="18" Content="{DynamicResource TitleBar_Popup_Button_ShowMainWindow}" Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                                <i:InvokeCommandAction Command="{x:Static hc:ControlCommands.PushMainWindow2Top}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                    <Button FontSize="18" Content="{DynamicResource TitleBar_Popup_Button_Exit}" Command="hc:ControlCommands.ShutdownApp" Click="ExitApp"/>
+                                                </StackPanel>
+                                                <Label/>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                    <Button FontSize="18" Content="{DynamicResource AppsBar_Ok}" Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </materialDesign:PopupBox>
+                                    </src:FishEyePanel>
+                                </Grid>
+                                <Border Height="40" Margin="10,0" Width="2" CornerRadius="1" Background="{DynamicResource MaterialDesignToolBarBackground}" DockPanel.Dock="Right"/>
+                                <Grid DockPanel.Dock="Left" Margin="10,0,10,0">
+                                    <src:FishEyePanel x:Name="localAppsLister" RenderTransformOrigin="0.5,0.5" Margin="10,10,0,10">
+                                        <Button Width="45" Height="45" x:Name="LocalAppsManager_Btn" Style="{StaticResource PulseButton}" Click="OpenLAM">
+                                            <Image Margin="5" Source="Source/LocalApps.png" Stretch="Uniform"/>
+                                        </Button>
+                                    </src:FishEyePanel>
+                                </Grid>
+                                <Border Height="40" Margin="0,10" Width="2" CornerRadius="1" Background="{DynamicResource MaterialDesignToolBarBackground}" DockPanel.Dock="Left"/>
+                                <Grid x:Name="Container">
+                                    <src:FishEyePanel x:Name="fishButtons" RenderTransformOrigin="0.5,0.5" Margin="10,0,0,0"/>
+                                </Grid>
+                            </DockPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <ScrollViewer Margin="0,130,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="Quicker" Style="{DynamicResource ListViewScrollViewerStyle}">
+
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <StackPanel hc:Growl.GrowlParent="True" Margin="10"/>
+        </ScrollViewer>
+    </Grid>
+</Window>

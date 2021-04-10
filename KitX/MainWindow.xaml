@@ -1,0 +1,1304 @@
+﻿<Window x:Class="KitX.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KitX"
+        xmlns:controls="clr-namespace:KitX.Controls"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:pop="clr-namespace:PopEye.WPF;assembly=PopEye.WPF"
+        xmlns:popc="clr-namespace:PopEye.WPF.Controls;assembly=PopEye.WPF"
+        x:Name="mainWindow" Icon="Source/KitX.png"
+        Title="KitX" MinHeight="620" MinWidth="980" Height="768" Width="1080" Background="{DynamicResource MaterialDesignBackground}">
+
+    <!--#region 资源定义 -->
+    <Window.Resources>
+
+        <!--#region 详细信息资源绑定 -->
+        <sys:String x:Key="ToolName">ToolName</sys:String>
+        <sys:String x:Key="Publisher">Catrol</sys:String>
+        <sys:String x:Key="LastPostedTime">0000-00-00</sys:String>
+        <sys:String x:Key="InstalledVersion">Alpha</sys:String>
+        <sys:String x:Key="Discription">描述</sys:String>
+        <sys:String x:Key="HelpLink">http://www.baidu.com/</sys:String>
+        <sys:String x:Key="HostLink">http://www.baidu.com/</sys:String>
+        <sys:String x:Key="LangProvided">zh-CN</sys:String>
+        <BitmapImage x:Key="Icon" UriSource="Source/KitX.png"/>
+        <sys:String x:Key="Version">Alpha</sys:String>
+        <!--#endregion-->
+
+        <!--#region 账户信息资源绑定 -->
+        <sys:String x:Key="UserName">UserName</sys:String>
+        <sys:String x:Key="UserMail">UserMail@catrol.cn</sys:String>
+        <sys:DateTime x:Key="UserBirthday">1949-10-01 14:00:00</sys:DateTime>
+        <Visibility x:Key="UserSigned">Hidden</Visibility>
+        <Visibility x:Key="YUserIcon">Visible</Visibility>
+        <BitmapImage x:Key="UserHeader" UriSource="Source/KitX.png"/>
+        <!--#endregion-->
+
+        <!--#region 转换器资源 -->
+        <local:EditMenuEnable x:Key="EditMenuEnableConverter"/>
+        <local:GetOpenFolder x:Key="GetOpenFolder"/>
+        <local:GetAccViewMenuEnable x:Key="GetAccMenuEnable"/>
+        <local:GetAccInfoViewMenuEnable x:Key="GetAccInfoMenuEnable"/>
+        <!--#endregion-->
+
+        <!--#region 标题动画资源 -->
+        <Storyboard x:Key="TitleEffect" AutoReverse="True" RepeatBehavior="Forever">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="TitleBox">
+                <EasingColorKeyFrame KeyTime="0:0:1" Value="#FF5E8BA6">
+                    <EasingColorKeyFrame.EasingFunction>
+                        <SineEase EasingMode="EaseInOut"/>
+                    </EasingColorKeyFrame.EasingFunction>
+                </EasingColorKeyFrame>
+            </ColorAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)" Storyboard.TargetName="TitleBox">
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="10"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)" Storyboard.TargetName="TitleBox">
+                <EasingColorKeyFrame KeyTime="0:0:1" Value="#FF009FFF"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <!--#endregion-->
+
+        <!--#region 动画信息资源绑定 -->
+        
+        <Storyboard x:Key="SignBig">
+            <DoubleAnimation Duration="00:00:0.5" From="310" To="330" Storyboard.TargetName="SignInWin" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="470" To="490" Storyboard.TargetName="SignInWin" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="310" To="330" Storyboard.TargetName="SignUpWin" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="470" To="490" Storyboard.TargetName="SignUpWin" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        
+        <Storyboard x:Key="SignSmall">
+            <DoubleAnimation Duration="00:00:0.5" From="330" To="310" Storyboard.TargetName="SignInWin" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="490" To="470" Storyboard.TargetName="SignInWin" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="330" To="310" Storyboard.TargetName="SignUpWin" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="490" To="470" Storyboard.TargetName="SignUpWin" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        
+        <Storyboard x:Key="SignUpInfoBig">
+            <DoubleAnimation Duration="00:00:0.5" From="250" To="260" Storyboard.TargetName="SignUpInfoBox" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="300" To="340" Storyboard.TargetName="SignUpInfoBox" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="SignUpInfoSmall">
+            <DoubleAnimation Duration="00:00:0.5" From="260" To="250" Storyboard.TargetName="SignUpInfoBox" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="340" To="300" Storyboard.TargetName="SignUpInfoBox" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="UserCardBig">
+            <DoubleAnimation Duration="00:00:0.5" From="220" To="240" Storyboard.TargetName="UserCard" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="330" To="360" Storyboard.TargetName="UserCard" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="UserCardSmall">
+            <DoubleAnimation Duration="00:00:0.5" From="240" To="220" Storyboard.TargetName="UserCard" Storyboard.TargetProperty="Width">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:0.5" From="360" To="330" Storyboard.TargetName="UserCard" Storyboard.TargetProperty="Height">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <!--#endregion-->
+
+    </Window.Resources>
+    <!--#endregion-->
+    
+    <!--#region 自定义窗体设定 -->
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0,30,0,0" CaptionHeight="0" NonClientFrameEdges="Left,Bottom,Right" ResizeBorderThickness="10"/>
+    </WindowChrome.WindowChrome>
+    <!--#endregion-->
+
+    <!--#region 内容 -->
+    <Window.Template>
+        <ControlTemplate TargetType="Window">
+
+            <!--#region 主体内容 -->
+            <Border Padding="0,30,0,0">
+                <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+
+                    <!--#region 标题栏 -->
+                    <Border MouseDown="Border_MouseDown" Background="{DynamicResource MaterialDesignBackground}" VerticalAlignment="Top" Height="60" Margin="0,-29,140,0">
+                        <DockPanel Margin="10,0">
+                            <!--标题-->
+                            <Button Style="{StaticResource MaterialDesignIconButton}" Margin="5,0,5,3" DockPanel.Dock="Left">
+                                <Image Source="Source/KitX.png" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+
+                            <TextBlock x:Name="TitleBox" Margin="5,0,5,3" DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolForeground}" FontSize="16" Text="{DynamicResource TitleBar_Title}">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                            
+                            <Menu DockPanel.Dock="Left" IsMainMenu="True" VerticalAlignment="Center" Margin="5,0" Style="{StaticResource MaterialDesignMenu}" Background="{DynamicResource MaterialDesignBackground}">
+
+                                <!--#region 文件菜单 -->
+                                <MenuItem Header="{DynamicResource MainMenu_Files}">
+                                    <MenuItem Header="{DynamicResource MainMenu_Files_Open}" Click="Adder_Click"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Files_Export}">
+                                        <MenuItem Header="{DynamicResource MainMenu_Files_Export_Config}" Tag="uri:developing" Click="OpenLink"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_Files_Export_Tools}" Tag="uri:developing" Click="OpenLink"/>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Edit_Options}" Click="JumpTo_Cog"/>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Files_ReStart}" Command="hc:ControlCommands.ShutdownApp" Click="ReStart"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Files_Exit}" Command="hc:ControlCommands.ShutdownApp" Click="ExitApp"/>
+                                </MenuItem>
+                                <!--#endregion-->
+
+                                <!--#region 编辑菜单 -->
+                                <MenuItem Header="{DynamicResource MainMenu_Edit}" IsEnabled="{Binding ElementName=ToolsList, Path=SelectedIndex, Converter={StaticResource EditMenuEnableConverter}}">
+                                    <MenuItem Header="{DynamicResource MainMenu_Edit_Copy}"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Edit_Cut}"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Edit_Paste}"/>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Edit_Redo}"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Edit_Undo}"/>
+                                </MenuItem>
+                                <!--#endregion-->
+
+                                <!--#region 视图菜单 -->
+                                <MenuItem Header="{DynamicResource MainMenu_View}">
+                                    <MenuItem Header="{DynamicResource MainMenu_View_Lib}">
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Lib_Home}" Click="Normal_Jump" Tag="0,0"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Lib_Info}" Click="Normal_Jump" Tag="0,1"/>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource MainMenu_View_Shop}" Click="Normal_Jump" Tag="1,0"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_View_Plan}" Click="Normal_Jump" Tag="2,0"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_View_Acc}" Click="JumpTo_User">
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Acc_SignIn}" Click="Normal_Jump" Tag="3,0" IsEnabled="{Binding ElementName=Acc_Pages, Path=SelectedIndex, Converter={StaticResource GetAccMenuEnable}}"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Acc_SignUp}" Click="Normal_Jump" Tag="3,1" IsEnabled="{Binding ElementName=Acc_Pages, Path=SelectedIndex, Converter={StaticResource GetAccMenuEnable}}"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Acc_Info}" Click="Normal_Jump" Tag="3,2" IsEnabled="{Binding ElementName=Acc_Pages, Path=SelectedIndex, Converter={StaticResource GetAccInfoMenuEnable}}"/>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource MainMenu_View_Cog}">
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Cog_Environment}" Click="Normal_Jump" Tag="4,0"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Cog_Personalize}" Click="Normal_Jump" Tag="4,1"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Cog_Nature}" Click="Normal_Jump" Tag="4,2"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Cog_Deliver}" Click="Normal_Jump" Tag="4,3"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_View_Cog_Support}" Click="Normal_Jump" Tag="4,4"/>
+                                    </MenuItem>
+                                </MenuItem>
+                                <!--#endregion-->
+
+                                <!--#region 帮助菜单 -->
+                                <MenuItem Header="{DynamicResource MainMenu_Help}">
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_View}" Tag="http://docs.catrol.cn/kitx-howtouse/" Click="OpenLink"/>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_Log}" Tag="uri:logFile" Click="OpenLink"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_FeedBack}" Tag="uri:developing" Click="OpenLink">
+                                        <MenuItem Header="{DynamicResource MainMenu_Help_FeedBack_Problem}" Tag="uri:developing" Click="OpenLink"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_Help_FeedBack_Suggestion}" Tag="uri:developing" Click="OpenLink"/>
+                                        <MenuItem Header="{DynamicResource MainMenu_Help_FeedBack_Mine}" Tag="uri:developing" Click="OpenLink"/>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_TechSupport}" Tag="uri:developing" Click="OpenLink"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_Tsk}" Tag="uri:developing" Click="OpenLink"/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_CheckUpdate}" Click="CheckForUpdate"/>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_KeyBoardHelper}" Tag="http://docs.catrol.cn/kitx-in-keyboard/" Click="OpenLink"/>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource MainMenu_Help_About}" Tag="4,4" Click="ToAbout"/>
+                                </MenuItem>
+                                <!--#endregion-->
+
+                            </Menu>
+                            
+                            <Grid DockPanel.Dock="Right">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <!--#region 保持置顶 -->
+                                    <ToggleButton x:Name="KeepToper" ToolTip="{DynamicResource TitleBar_Pin_ToolTip}" Checked="KeepToper_Checked" Unchecked="KeepToper_Unchecked" Width="35" Background="Transparent" Margin="10,0" Style="{StaticResource MaterialDesignActionToggleButton}">
+                                        <Path Width="20" Height="20" Fill="{DynamicResource LinearBlue}" Data="F1 M 20 5 L 20 13.75 L 19.375 13.75 C 18.867188 13.75 18.401691 13.640951 17.978516 13.422852 C 17.555338 13.204753 17.190754 12.897136 16.884766 12.5 L 12.060547 12.5 C 11.878255 12.884115 11.650391 13.230795 11.376953 13.540039 C 11.103516 13.849284 10.795898 14.111328 10.454102 14.326172 C 10.112305 14.541016 9.744466 14.707031 9.350586 14.824219 C 8.956705 14.941406 8.548177 15 8.125 15 L 7.5 15 L 7.5 10 L 1.25 10 L 0 9.375 L 1.25 8.75 L 7.5 8.75 L 7.5 3.75 L 8.125 3.75 C 8.548177 3.75 8.956705 3.808594 9.350586 3.925781 C 9.744466 4.042969 10.112305 4.208984 10.454102 4.423828 C 10.795898 4.638672 11.103516 4.900717 11.376953 5.209961 C 11.650391 5.519207 11.878255 5.865887 12.060547 6.25 L 16.884766 6.25 C 17.190754 5.852865 17.555338 5.545248 17.978516 5.327148 C 18.401691 5.109051 18.867188 5.000001 19.375 5 Z M 18.75 6.357422 C 18.59375 6.409506 18.460285 6.47461 18.349609 6.552734 C 18.238932 6.63086 18.139648 6.717123 18.051758 6.811523 C 17.963867 6.905925 17.882486 7.011719 17.807617 7.128906 C 17.732746 7.246094 17.65625 7.369792 17.578125 7.5 L 11.201172 7.5 L 11.054688 7.080078 C 10.872396 6.565756 10.576172 6.129558 10.166016 5.771484 C 9.755859 5.413412 9.283854 5.179037 8.75 5.068359 L 8.75 13.681641 C 9.283854 13.570964 9.755859 13.336589 10.166016 12.978516 C 10.576172 12.620443 10.872396 12.184245 11.054688 11.669922 L 11.201172 11.25 L 17.578125 11.25 C 17.65625 11.380209 17.732746 11.503906 17.807617 11.621094 C 17.882486 11.738281 17.963867 11.844076 18.051758 11.938477 C 18.139648 12.032878 18.238932 12.119141 18.349609 12.197266 C 18.460285 12.275391 18.59375 12.340495 18.75 12.392578 Z "/>
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <Path Width="20" Height="20" Fill="{DynamicResource LinearWarning}" Data="F1 M 19.433594 7.304688 C 19.21875 7.519531 19.008789 7.716472 18.803711 7.895508 C 18.598633 8.074545 18.387043 8.225912 18.168945 8.349609 C 17.950846 8.473308 17.713215 8.569336 17.456055 8.637695 C 17.198893 8.706055 16.907551 8.740234 16.582031 8.740234 C 16.360676 8.740234 16.149088 8.720703 15.947266 8.681641 L 12.246094 12.382812 C 12.330729 12.630209 12.392578 12.884115 12.431641 13.144531 C 12.470703 13.404948 12.490234 13.665365 12.490234 13.925781 C 12.490234 14.348959 12.447916 14.733073 12.363281 15.078125 C 12.278646 15.423178 12.156575 15.748698 11.99707 16.054688 C 11.837564 16.360678 11.64388 16.65202 11.416016 16.928711 C 11.18815 17.205404 10.930989 17.486979 10.644531 17.773438 L 6.875 14.003906 L 1.328125 19.560547 L 0 20 L 0.439453 18.671875 L 5.996094 13.125 L 2.226562 9.355469 L 2.666016 8.916016 C 3.121745 8.460287 3.644206 8.111979 4.233398 7.871094 C 4.822591 7.630209 5.439453 7.509766 6.083984 7.509766 C 6.617838 7.509766 7.128906 7.591146 7.617188 7.753906 L 11.318359 4.052734 C 11.279297 3.850912 11.259766 3.639324 11.259766 3.417969 C 11.259766 3.098959 11.293945 2.810873 11.362305 2.553711 C 11.430664 2.296551 11.526692 2.057293 11.650391 1.835938 C 11.774088 1.614584 11.925455 1.401367 12.104492 1.196289 C 12.283528 0.991211 12.480469 0.78125 12.695312 0.566406 Z M 16.582031 7.490234 C 16.940104 7.490235 17.278645 7.4056 17.597656 7.236328 L 12.763672 2.402344 C 12.5944 2.721355 12.509765 3.059896 12.509766 3.417969 C 12.509765 3.600262 12.530924 3.77116 12.573242 3.930664 C 12.61556 4.09017 12.66276 4.254558 12.714844 4.423828 L 7.910156 9.21875 C 7.747396 9.153646 7.594401 9.091797 7.451172 9.033203 C 7.307942 8.974609 7.164713 8.925781 7.021484 8.886719 C 6.878255 8.847656 6.730143 8.816732 6.577148 8.793945 C 6.424153 8.771159 6.259766 8.759766 6.083984 8.759766 C 5.712891 8.759766 5.35319 8.813477 5.004883 8.920898 C 4.656575 9.02832 4.332682 9.186198 4.033203 9.394531 L 10.605469 15.966797 C 10.813802 15.667318 10.973307 15.343425 11.083984 14.995117 C 11.194661 14.646811 11.25 14.290365 11.25 13.925781 C 11.25 13.75 11.238606 13.585612 11.21582 13.432617 C 11.193033 13.279623 11.160481 13.129883 11.118164 12.983398 C 11.075846 12.836914 11.025391 12.692058 10.966797 12.548828 C 10.908203 12.4056 10.846354 12.252604 10.78125 12.089844 L 15.576172 7.285156 C 15.745442 7.33724 15.90983 7.38444 16.069336 7.426758 C 16.22884 7.469076 16.399738 7.490235 16.582031 7.490234 Z "/>
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                    </ToggleButton>
+                                    <!--#endregion-->
+
+                                    <!--#region 工具栏调整 -->
+                                    <ToggleButton x:Name="AppsBarManager" ToolTip="{DynamicResource TitleBar_AppsBarManager_ToolTip}" Checked="AppsBarManager_Checked" Unchecked="AppsBarManager_Unchecked" Width="35" Background="Transparent" Margin="10,0" Style="{StaticResource MaterialDesignActionToggleButton}">
+                                        <Path Width="20" Height="20" Fill="{DynamicResource LinearBlue}" Data="F1 M 20 0 L 20 20 L 0 20 L 0 0 Z M 18.75 1.25 L 12.5 1.25 L 12.5 6.25 L 18.75 6.25 Z M 12.5 12.5 L 18.75 12.5 L 18.75 7.5 L 12.5 7.5 Z M 1.25 1.25 L 1.25 12.5 L 11.25 12.5 L 11.25 1.25 Z M 1.25 18.75 L 7.5 18.75 L 7.5 13.75 L 1.25 13.75 Z M 18.75 18.75 L 18.75 13.75 L 8.75 13.75 L 8.75 18.75 Z "/>
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <Path Width="20" Height="20" Fill="{DynamicResource LinearWarning}" Data="F1M20,0L20,20 0,20 0,0z M18.75,1.25L12.5,1.25 12.5,6.25 18.75,6.25z M12.5,12.5L18.75,12.5 18.75,7.5 12.5,7.5z M1.25,1.25L1.25,12.5 11.25,12.5 11.25,1.25z M1.25,18.75L7.5,18.75 7.5,13.75 1.25,13.75z M18.75,18.75L18.75,13.75 8.75,13.75 8.75,18.75z"/>
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                        <ToggleButton.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="{DynamicResource TitleBar_AppsBarManager_ContextMenu_Close}" Click="CloseAppsbar"/>
+                                            </ContextMenu>
+                                        </ToggleButton.ContextMenu>
+                                    </ToggleButton>
+                                    <!--#endregion-->
+
+                                    <!--#region 弹出菜单 -->
+                                    <materialDesign:PopupBox Margin="10,0" materialDesign:ThemeAssist.Theme="Inherit"
+                                                             Width="30" HorizontalAlignment="Center" Height="{Binding ElementName=TitleBar, Path=ActualHeight}"
+                                                             PlacementMode="BottomAndAlignCentres">
+
+                                        <!--#region 显示的内容 -->
+                                        <materialDesign:PopupBox.ToggleContent>
+                                            <Grid>
+                                                <Path Visibility="{DynamicResource YUserIcon}" Width="20" Fill="{DynamicResource MaterialDesignToolForeground}" Data="F1 M 12.988281 11.748047 C 13.873697 12.054037 14.672852 12.482097 15.385742 13.032227 C 16.098633 13.582357 16.704102 14.21875 17.202148 14.941406 C 17.700195 15.664063 18.082682 16.455078 18.349609 17.314453 C 18.616535 18.173828 18.75 19.06901 18.75 20 L 17.5 20 C 17.5 18.932291 17.30957 17.94108 16.928711 17.026367 C 16.547852 16.111654 16.022135 15.319011 15.351563 14.648438 C 14.680989 13.977865 13.888346 13.452148 12.973633 13.071289 C 12.058919 12.69043 11.067708 12.5 10 12.5 C 9.303385 12.5 8.632813 12.587891 7.988281 12.763672 C 7.34375 12.939453 6.743164 13.188477 6.186523 13.510742 C 5.629883 13.833008 5.125325 14.220378 4.672852 14.672852 C 4.220377 15.125326 3.833008 15.629883 3.510742 16.186523 C 3.188477 16.743164 2.939453 17.34375 2.763672 17.988281 C 2.587891 18.632813 2.5 19.303385 2.5 20 L 1.25 20 C 1.25 19.0625 1.386719 18.165689 1.660156 17.30957 C 1.933594 16.453451 2.320963 15.667318 2.822266 14.951172 C 3.323567 14.235026 3.930664 13.603516 4.643555 13.056641 C 5.356445 12.509766 6.152344 12.076823 7.03125 11.757813 C 6.523437 11.484375 6.067708 11.152344 5.664063 10.761719 C 5.260417 10.371094 4.916992 9.936523 4.633789 9.458008 C 4.350586 8.979492 4.132487 8.468425 3.979492 7.924805 C 3.826497 7.381186 3.75 6.822918 3.75 6.25 C 3.75 5.384115 3.91276 4.57194 4.238281 3.813477 C 4.563802 3.055014 5.009766 2.392578 5.576172 1.826172 C 6.142578 1.259766 6.805013 0.813803 7.563477 0.488281 C 8.321939 0.162762 9.134114 0 10 0 C 10.865885 0 11.67806 0.162762 12.436523 0.488281 C 13.194986 0.813803 13.857422 1.259766 14.423828 1.826172 C 14.990234 2.392578 15.436197 3.055014 15.761719 3.813477 C 16.087238 4.57194 16.25 5.384115 16.25 6.25 C 16.25 6.822918 16.173502 7.379559 16.020508 7.919922 C 15.867512 8.460287 15.649413 8.9681 15.366211 9.443359 C 15.083007 9.91862 14.74121 10.35319 14.34082 10.74707 C 13.940429 11.140951 13.489582 11.474609 12.988281 11.748047 Z M 5 6.25 C 5 6.940105 5.131836 7.587892 5.395508 8.193359 C 5.65918 8.798828 6.017252 9.3278 6.469727 9.780273 C 6.9222 10.232748 7.451171 10.59082 8.056641 10.854492 C 8.662109 11.118164 9.309896 11.25 10 11.25 C 10.690104 11.25 11.337891 11.118164 11.943359 10.854492 C 12.548828 10.59082 13.077799 10.232748 13.530273 9.780273 C 13.982746 9.3278 14.340819 8.798828 14.604492 8.193359 C 14.868163 7.587892 14.999999 6.940105 15 6.25 C 14.999999 5.559896 14.868163 4.912109 14.604492 4.306641 C 14.340819 3.701172 13.982746 3.172201 13.530273 2.719727 C 13.077799 2.267254 12.548828 1.90918 11.943359 1.645508 C 11.337891 1.381836 10.690104 1.25 10 1.25 C 9.309896 1.25 8.662109 1.381836 8.056641 1.645508 C 7.451171 1.90918 6.9222 2.267254 6.469727 2.719727 C 6.017252 3.172201 5.65918 3.701172 5.395508 4.306641 C 5.131836 4.912109 5 5.559896 5 6.25 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                <Image Visibility="{DynamicResource UserSigned}" Width="30" Height="30" Margin="0" Source="{DynamicResource UserHeader}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <Image.Clip>
+                                                        <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,30,30"/>
+                                                    </Image.Clip>
+                                                </Image>
+                                            </Grid>
+                                        </materialDesign:PopupBox.ToggleContent>
+                                        <!--#endregion-->
+
+                                        <!--#region 弹出内容 -->
+                                        <Border Width="220">
+                                            <Grid Margin="10">
+
+                                                <!--#region 头像 -->
+                                                <Grid Height="85" VerticalAlignment="Top">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="60"/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition Height="25"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Grid.Row="0" Width="60" Height="60">
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" Click="JumpTo_User" Background="{DynamicResource LinearBlue}">
+                                                            <Path Width="20" Fill="{DynamicResource MaterialDesignDarkForeground}" Data="F1 M 12.988281 11.748047 C 13.873697 12.054037 14.672852 12.482097 15.385742 13.032227 C 16.098633 13.582357 16.704102 14.21875 17.202148 14.941406 C 17.700195 15.664063 18.082682 16.455078 18.349609 17.314453 C 18.616535 18.173828 18.75 19.06901 18.75 20 L 17.5 20 C 17.5 18.932291 17.30957 17.94108 16.928711 17.026367 C 16.547852 16.111654 16.022135 15.319011 15.351563 14.648438 C 14.680989 13.977865 13.888346 13.452148 12.973633 13.071289 C 12.058919 12.69043 11.067708 12.5 10 12.5 C 9.303385 12.5 8.632813 12.587891 7.988281 12.763672 C 7.34375 12.939453 6.743164 13.188477 6.186523 13.510742 C 5.629883 13.833008 5.125325 14.220378 4.672852 14.672852 C 4.220377 15.125326 3.833008 15.629883 3.510742 16.186523 C 3.188477 16.743164 2.939453 17.34375 2.763672 17.988281 C 2.587891 18.632813 2.5 19.303385 2.5 20 L 1.25 20 C 1.25 19.0625 1.386719 18.165689 1.660156 17.30957 C 1.933594 16.453451 2.320963 15.667318 2.822266 14.951172 C 3.323567 14.235026 3.930664 13.603516 4.643555 13.056641 C 5.356445 12.509766 6.152344 12.076823 7.03125 11.757813 C 6.523437 11.484375 6.067708 11.152344 5.664063 10.761719 C 5.260417 10.371094 4.916992 9.936523 4.633789 9.458008 C 4.350586 8.979492 4.132487 8.468425 3.979492 7.924805 C 3.826497 7.381186 3.75 6.822918 3.75 6.25 C 3.75 5.384115 3.91276 4.57194 4.238281 3.813477 C 4.563802 3.055014 5.009766 2.392578 5.576172 1.826172 C 6.142578 1.259766 6.805013 0.813803 7.563477 0.488281 C 8.321939 0.162762 9.134114 0 10 0 C 10.865885 0 11.67806 0.162762 12.436523 0.488281 C 13.194986 0.813803 13.857422 1.259766 14.423828 1.826172 C 14.990234 2.392578 15.436197 3.055014 15.761719 3.813477 C 16.087238 4.57194 16.25 5.384115 16.25 6.25 C 16.25 6.822918 16.173502 7.379559 16.020508 7.919922 C 15.867512 8.460287 15.649413 8.9681 15.366211 9.443359 C 15.083007 9.91862 14.74121 10.35319 14.34082 10.74707 C 13.940429 11.140951 13.489582 11.474609 12.988281 11.748047 Z M 5 6.25 C 5 6.940105 5.131836 7.587892 5.395508 8.193359 C 5.65918 8.798828 6.017252 9.3278 6.469727 9.780273 C 6.9222 10.232748 7.451171 10.59082 8.056641 10.854492 C 8.662109 11.118164 9.309896 11.25 10 11.25 C 10.690104 11.25 11.337891 11.118164 11.943359 10.854492 C 12.548828 10.59082 13.077799 10.232748 13.530273 9.780273 C 13.982746 9.3278 14.340819 8.798828 14.604492 8.193359 C 14.868163 7.587892 14.999999 6.940105 15 6.25 C 14.999999 5.559896 14.868163 4.912109 14.604492 4.306641 C 14.340819 3.701172 13.982746 3.172201 13.530273 2.719727 C 13.077799 2.267254 12.548828 1.90918 11.943359 1.645508 C 11.337891 1.381836 10.690104 1.25 10 1.25 C 9.309896 1.25 8.662109 1.381836 8.056641 1.645508 C 7.451171 1.90918 6.9222 2.267254 6.469727 2.719727 C 6.017252 3.172201 5.65918 3.701172 5.395508 4.306641 C 5.131836 4.912109 5 5.559896 5 6.25 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                        </Button>
+                                                    </Grid>
+                                                    <TextBlock Text="{DynamicResource UserName}" Grid.Row="2" Foreground="{DynamicResource MaterialDesignToolTipBackground}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Grid>
+                                                <!--#endregion-->
+
+                                                <Border Margin="5,30,5,5">
+                                                    <StackPanel Margin="5,60,5,5">
+
+                                                        <!--#region 语言切换 -->
+                                                        <ComboBox x:Name="LangS" SelectionChanged="LangS_SelectionChanged" Margin="0,4" HorizontalAlignment="Center" ToolTip="{DynamicResource TitleBar_Popup_Lang_Exchanger}" SelectedIndex="0" BorderThickness="0" materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource MaterialDesignPaper}">
+                                                            <ComboBoxItem Content="简体中文"/>
+                                                            <ComboBoxItem Content="繁體中文"/>
+                                                            <ComboBoxItem Content="English(US)"/>
+                                                            <ComboBoxItem Content="日本語"/>
+                                                        </ComboBox>
+                                                        <!--#endregion-->
+
+                                                        <!--#region 主题切换 -->
+                                                        <Grid Margin="0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{DynamicResource TitleBar_Popup_Theme_Light}"/>
+                                                            <ToggleButton Click="ToggleButton_Theme_Click" x:Name="ToggleButton_Theme" Grid.Column="1" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="{DynamicResource TitleBar_Popup_Theme_Exchanger}"/>
+                                                            <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{DynamicResource TitleBar_Popup_Theme_Dark}"/>
+                                                        </Grid>
+                                                        <!--#endregion-->
+
+                                                        <!--用户-->
+                                                        <Button Margin="0,4" Content="{DynamicResource TitleBar_Popup_Button_User}" Click="JumpTo_User"/>
+                                                        <!--设置-->
+                                                        <Button Margin="0,4" Content="{DynamicResource TitleBar_Popup_Button_Settings}" Click="JumpTo_Cog"/>
+                                                        <!--退出-->
+                                                        <Button Margin="0,4" Content="{DynamicResource TitleBar_Popup_Button_Exit}" Command="hc:ControlCommands.ShutdownApp" Click="ExitApp"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                        <!--#endregion-->
+
+                                    </materialDesign:PopupBox>
+                                    <!--#endregion-->
+
+                                </StackPanel>
+                            </Grid>
+
+                            <!--#region 中部占位栏 -->
+                            <Grid>
+
+                            </Grid>
+                            <!--#endregion-->
+
+                        </DockPanel>
+                    </Border>
+                    <!--#endregion-->
+
+                    <!--#region 内容 -->
+                    <Grid Margin="0,20,0,0">
+
+                        <!--#region 视图切换列表 -->
+                        <Grid Width="60" Margin="12,10,10,10" HorizontalAlignment="Left">
+                            <Border CornerRadius="5" Background="{DynamicResource MaterialDesignChipBackground}"/>
+                            <DockPanel>
+
+                                <!--#region 底部按钮 -->
+                                <Grid DockPanel.Dock="Bottom">
+                                    <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
+                                        <Button Style="{StaticResource MaterialDesignIconButton}" Margin="4" Command="hc:ControlCommands.ShutdownApp" Click="ExitApp">
+                                            <Path Fill="{DynamicResource LinearWarning}" Width="20" Height="20" Data="F1 M 2.5 17.5 L 11.20 17.5 L 11.20 18.75 L 1.20 18.75 L 1.20 0 L 11.20 0 L 11.20 1.20 L 2.5 1.20 Z M 18.896484 9.375 L 14.140625 14.140625 L 13.359375 13.359375 L 16.728516 10 L 6.20 10 L 6.20 8.75 L 16.728516 8.75 L 13.359375 5.390625 L 14.140625 4.609375 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                                <!--#endregion-->
+
+                                <!--#region 顶部视图切换单选按钮组 -->
+                                <StackPanel Orientation="Vertical">
+                                    <RadioButton ToolTip="{DynamicResource Left_Face_Lib}" GroupName="SUF" Style="{StaticResource MaterialDesignIconButton}" Margin="4" IsChecked="True" Checked="JumpTo_Lib">
+                                        <Path Fill="{DynamicResource PrimaryHueMidBrush}" Width="20" Height="20" Data="F1 M 16.20 8.125 L 20 10 L 16.20 11.875 L 20 13.75 L 10 18.75 L 0 13.75 L 3.75 11.875 L 0 10 L 3.75 8.125 L 0 6.20 L 10 1.20 L 20 6.20 Z M 2.792969 6.20 L 10 9.853516 L 17.207031 6.20 L 10 2.646484 Z M 17.207031 13.75 L 14.853516 12.578125 L 10 15 L 5.146484 12.578125 L 2.792969 13.75 L 10 17.353516 Z M 10 13.603516 L 17.207031 10 L 14.853516 8.828125 L 10 11.20 L 5.146484 8.828125 L 2.792969 10 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </RadioButton>
+                                    <RadioButton ToolTip="{DynamicResource Left_Face_Shop}" GroupName="SUF" Style="{StaticResource MaterialDesignIconButton}" Margin="4" IsChecked="False" Checked="JumpTo_Shop">
+                                        <Path Fill="{DynamicResource PrimaryHueMidBrush}" Width="20" Height="20" Data="F1 M 17.5 5 L 17.5 17.5 C 17.5 17.845053 17.433268 18.168945 17.299805 18.47168 C 17.16634 18.774414 16.987255 19.038086 16.762695 19.262695 C 16.538086 19.487255 16.272785 19.666342 15.966797 19.799805 C 15.660807 19.933268 15.338541 20 15 20 L 3.75 20 C 3.404948 20 3.081055 19.933268 2.77832 19.799805 C 2.475586 19.666342 2.211914 19.487255 1.987255 19.262695 C 1.762695 19.038086 1.583659 18.774414 1.450195 18.47168 C 1.316732 18.168945 1.20 17.845053 1.20 17.5 L 1.20 5 L 3.75 5 L 3.75 3.75 C 3.75 3.235678 3.849284 2.750652 4.047852 2.294922 C 4.246419 1.839193 4.514974 1.442059 4.853516 1.103516 C 5.192057 0.764975 5.589192 0.49642 6.044922 0.297852 C 6.500651 0.099285 6.985677 0 7.5 0 C 8.177083 0 8.805338 0.169271 9.384766 0.507812 C 9.964192 0.169271 10.585938 0 11.20 0 C 11.764322 0 12.249349 0.099285 12.705078 0.297852 C 13.160807 0.49642 13.557941 0.764975 13.896484 1.103516 C 14.235025 1.442059 14.50358 1.839193 14.702148 2.294922 C 14.900715 2.750652 14.999999 3.235678 15 3.75 L 15 5 Z M 13.75 3.75 C 13.75 3.411459 13.683268 3.089193 13.549805 2.783203 C 13.416341 2.477215 13.237255 2.211914 13.012695 1.987255 C 12.788086 1.762695 12.522786 1.58366 12.216797 1.450195 C 11.910807 1.316732 11.588541 1.20 11.20 1.20 C 10.957031 1.20 10.680338 1.298828 10.419922 1.396484 C 10.608724 1.625859 10.758463 1.86198 10.869141 2.089844 C 10.979817 2.317709 11.062825 2.545574 11.118164 2.773438 C 11.173502 3.001253 11.20931 3.234051 11.225586 3.47168 C 11.241861 3.709311 11.20 3.958334 11.20 4.21875 L 11.20 5 L 13.75 5 Z M 5 5 L 10 5 L 10 3.75 C 10 3.411459 9.933268 3.089193 9.799805 2.783203 C 9.666341 2.477215 9.487255 2.211914 9.262695 1.987255 C 9.038086 1.762695 8.772786 1.58366 8.466797 1.450195 C 8.160807 1.316732 7.838542 1.20 7.5 1.20 C 7.154948 1.20 6.831055 1.316732 6.52832 1.450195 C 6.225586 1.58366 5.961914 1.762695 5.737255 1.987255 C 5.512695 2.211914 5.333659 2.477215 5.200195 2.783203 C 5.066731 3.089193 5 3.411459 5 3.75 Z M 12.832031 18.75 C 12.610677 18.359375 12.5 17.942709 12.5 17.5 L 12.5 6.20 L 2.5 6.20 L 2.5 17.5 C 2.5 17.675781 2.532552 17.838541 2.597656 17.988281 C 2.66276 18.138021 2.752279 18.269857 2.866211 18.383789 C 2.980143 18.497721 3.111979 18.58724 3.261719 18.652344 C 3.411458 18.717447 3.574219 18.75 3.75 18.75 Z M 16.20 6.20 L 13.75 6.20 L 13.75 17.5 C 13.75 17.675781 13.782552 17.838541 13.847656 17.988281 C 13.91276 18.138021 14.002277 18.269857 14.116211 18.383789 C 14.225143 18.497721 14.361979 18.58724 14.511719 18.652344 C 14.661457 18.717447 14.824218 18.75 15 18.75 C 15.17578 18.75 15.338541 18.717447 15.488281 18.652344 C 15.638021 18.58724 15.769856 18.497721 15.883789 18.383789 C 15.997721 18.269857 16.087238 18.138021 16.152344 17.988281 C 16.217447 17.838541 16.20 17.675781 16.20 17.5 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </RadioButton>
+                                    <RadioButton ToolTip="{DynamicResource Left_Face_Task}" GroupName="SUF" Style="{StaticResource MaterialDesignIconButton}" Margin="4" IsChecked="False" Checked="JumpTo_Task">
+                                        <Path Fill="{DynamicResource PrimaryHueMidBrush}" Width="20" Height="20" Data="F1 M 17.5 10 L 18.75 10 L 18.75 18.75 L 17.5 18.75 Z M 18.75 3.75 L 17.5 3.75 L 17.5 0 L 18.75 0 Z M 18.125 5 C 18.385416 5.000001 18.629557 5.048829 18.857422 5.146484 C 19.085285 5.244142 19.283854 5.377605 19.453125 5.546875 C 19.622395 5.716146 19.755859 5.914714 19.853516 6.142578 C 19.951172 6.370443 20 6.614584 20 6.875 C 20 7.135417 19.951172 7.379558 19.853516 7.607422 C 19.755859 7.835287 19.622395 8.033854 19.453125 8.203125 C 19.283854 8.372396 19.085285 8.505859 18.857422 8.603516 C 18.629557 8.701172 18.385416 8.75 18.125 8.75 C 17.864582 8.75 17.620441 8.701172 17.392578 8.603516 C 17.164713 8.505859 16.966145 8.372396 16.796875 8.203125 C 16.627604 8.033854 16.494141 7.835287 16.396484 7.607422 C 16.298828 7.379558 16.20 7.135417 16.20 6.875 C 16.20 6.614584 16.298828 6.370443 16.396484 6.142578 C 16.494141 5.914714 16.627604 5.716146 16.796875 5.546875 C 16.966145 5.377605 17.164713 5.244142 17.392578 5.146484 C 17.620441 5.048829 17.864582 5.000001 18.125 5 Z M 0 5 L 13.75 5 L 13.75 13.75 L 0 13.75 Z M 1.20 12.5 L 12.5 12.5 L 12.5 6.20 L 1.20 6.20 Z M 12.5 0 L 13.75 0 L 13.75 3.75 L 0 3.75 L 0 0 L 1.20 0 L 1.20 2.5 L 12.5 2.5 Z M 0 15 L 13.75 15 L 13.75 18.75 L 12.5 18.75 L 12.5 16.20 L 1.20 16.20 L 1.20 18.75 L 0 18.75 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </RadioButton>
+                                    <RadioButton ToolTip="{DynamicResource Left_Face_Acc}" GroupName="SUF" Style="{StaticResource MaterialDesignIconButton}" Margin="4" IsChecked="False" Checked="JumpTo_User">
+                                        <Path Fill="{DynamicResource PrimaryHueMidBrush}" Width="20" Height="20" Data="F1 M 12.988281 11.748047 C 13.873697 12.054037 14.672852 12.482097 15.385742 13.032227 C 16.098633 13.582357 16.704102 14.21875 17.202148 14.941406 C 17.700195 15.664063 18.082682 16.455078 18.349609 17.314453 C 18.616535 18.173828 18.75 19.06901 18.75 20 L 17.5 20 C 17.5 18.932291 17.30957 17.94108 16.928711 17.026367 C 16.547852 16.111654 16.022135 15.319011 15.351563 14.648438 C 14.680989 13.977865 13.888346 13.452148 12.973633 13.071289 C 12.058919 12.69043 11.067708 12.5 10 12.5 C 9.303385 12.5 8.632813 12.587891 7.988281 12.763672 C 7.34375 12.939453 6.743164 13.188477 6.186523 13.510742 C 5.629883 13.833008 5.125325 14.220378 4.672852 14.672852 C 4.220377 15.125326 3.833008 15.629883 3.510742 16.186523 C 3.188477 16.743164 2.939453 17.34375 2.763672 17.988281 C 2.587891 18.632813 2.5 19.303385 2.5 20 L 1.25 20 C 1.25 19.0625 1.386719 18.165689 1.660156 17.30957 C 1.933594 16.453451 2.320963 15.667318 2.822266 14.951172 C 3.323567 14.235026 3.930664 13.603516 4.643555 13.056641 C 5.356445 12.509766 6.152344 12.076823 7.03125 11.757813 C 6.523437 11.484375 6.067708 11.152344 5.664063 10.761719 C 5.260417 10.371094 4.916992 9.936523 4.633789 9.458008 C 4.350586 8.979492 4.132487 8.468425 3.979492 7.924805 C 3.826497 7.381186 3.75 6.822918 3.75 6.25 C 3.75 5.384115 3.91276 4.57194 4.238281 3.813477 C 4.563802 3.055014 5.009766 2.392578 5.576172 1.826172 C 6.142578 1.259766 6.805013 0.813803 7.563477 0.488281 C 8.321939 0.162762 9.134114 0 10 0 C 10.865885 0 11.67806 0.162762 12.436523 0.488281 C 13.194986 0.813803 13.857422 1.259766 14.423828 1.826172 C 14.990234 2.392578 15.436197 3.055014 15.761719 3.813477 C 16.087238 4.57194 16.25 5.384115 16.25 6.25 C 16.25 6.822918 16.173502 7.379559 16.020508 7.919922 C 15.867512 8.460287 15.649413 8.9681 15.366211 9.443359 C 15.083007 9.91862 14.74121 10.35319 14.34082 10.74707 C 13.940429 11.140951 13.489582 11.474609 12.988281 11.748047 Z M 5 6.25 C 5 6.940105 5.131836 7.587892 5.395508 8.193359 C 5.65918 8.798828 6.017252 9.3278 6.469727 9.780273 C 6.9222 10.232748 7.451171 10.59082 8.056641 10.854492 C 8.662109 11.118164 9.309896 11.25 10 11.25 C 10.690104 11.25 11.337891 11.118164 11.943359 10.854492 C 12.548828 10.59082 13.077799 10.232748 13.530273 9.780273 C 13.982746 9.3278 14.340819 8.798828 14.604492 8.193359 C 14.868163 7.587892 14.999999 6.940105 15 6.25 C 14.999999 5.559896 14.868163 4.912109 14.604492 4.306641 C 14.340819 3.701172 13.982746 3.172201 13.530273 2.719727 C 13.077799 2.267254 12.548828 1.90918 11.943359 1.645508 C 11.337891 1.381836 10.690104 1.25 10 1.25 C 9.309896 1.25 8.662109 1.381836 8.056641 1.645508 C 7.451171 1.90918 6.9222 2.267254 6.469727 2.719727 C 6.017252 3.172201 5.65918 3.701172 5.395508 4.306641 C 5.131836 4.912109 5 5.559896 5 6.25 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </RadioButton>
+                                    <RadioButton ToolTip="{DynamicResource Left_Face_Cog}" GroupName="SUF" Style="{StaticResource MaterialDesignIconButton}" Margin="4" IsChecked="False" Checked="JumpTo_Cog">
+                                        <Path Fill="{DynamicResource PrimaryHueLightBrush}" Width="20" Height="20" Data="F1 M 17.412109 9.648438 C 17.412109 9.707031 17.413736 9.765625 17.416992 9.824219 C 17.420246 9.882812 17.421875 9.941406 17.421875 10 C 17.421875 10.058594 17.420246 10.117188 17.416992 10.175781 C 17.413736 10.234375 17.412109 10.292969 17.412109 10.351562 L 19.941406 11.923828 L 18.388672 15.664062 L 15.488281 15 C 15.332031 15.169271 15.169271 15.332031 15 15.488281 L 15.664062 18.388672 L 11.923828 19.941406 L 10.351562 17.412109 C 10.292969 17.412109 10.234375 17.413736 10.175781 17.416992 C 10.117188 17.420248 10.058594 17.421875 10 17.421875 C 9.941406 17.421875 9.882812 17.420248 9.824219 17.416992 C 9.765625 17.413736 9.707031 17.412109 9.648438 17.412109 L 8.076172 19.941406 L 4.335938 18.388672 L 5 15.488281 C 4.830729 15.332031 4.667969 15.169271 4.511719 15 L 1.611328 15.664062 L 0.058594 11.923828 L 2.587891 10.351562 C 2.587891 10.292969 2.586263 10.234375 2.583008 10.175781 C 2.579752 10.117188 2.578125 10.058594 2.578125 10 C 2.578125 9.941406 2.579752 9.882812 2.583008 9.824219 C 2.586263 9.765625 2.587891 9.707031 2.587891 9.648438 L 0.058594 8.076172 L 1.611328 4.335938 L 4.511719 5 C 4.667969 4.830729 4.830729 4.667969 5 4.511719 L 4.335938 1.611328 L 8.076172 0.058594 L 9.648438 2.587891 C 9.707031 2.587891 9.765625 2.586264 9.824219 2.583008 C 9.882812 2.579754 9.941406 2.578125 10 2.578125 C 10.058594 2.578125 10.117188 2.579754 10.175781 2.583008 C 10.234375 2.586264 10.292969 2.587891 10.351562 2.587891 L 11.923828 0.058594 L 15.664062 1.611328 L 15 4.511719 C 15.169271 4.667969 15.332031 4.830729 15.488281 5 L 18.388672 4.335938 L 19.941406 8.076172 Z M 16.269531 10.917969 C 16.282551 10.761719 16.295572 10.607097 16.308594 10.454102 C 16.321613 10.301107 16.328125 10.146484 16.328125 9.990234 C 16.328125 9.840495 16.321613 9.6875 16.308594 9.53125 C 16.295572 9.375 16.282551 9.222006 16.269531 9.072266 L 18.574219 7.636719 L 17.734375 5.605469 L 15.087891 6.220703 C 14.886067 5.973309 14.679361 5.745443 14.467773 5.537109 C 14.256184 5.328776 14.026691 5.120443 13.779297 4.912109 L 14.394531 2.265625 L 12.363281 1.425781 L 10.917969 3.730469 C 10.768229 3.717449 10.615234 3.704428 10.458984 3.691406 C 10.302734 3.678387 10.149739 3.671875 10 3.671875 C 9.84375 3.671875 9.689127 3.678387 9.536133 3.691406 C 9.383138 3.704428 9.228516 3.717449 9.072266 3.730469 L 7.636719 1.425781 L 5.605469 2.265625 L 6.220703 4.912109 C 5.973307 5.113933 5.745442 5.320639 5.537109 5.532227 C 5.328776 5.743816 5.120442 5.973309 4.912109 6.220703 L 2.265625 5.605469 L 1.425781 7.636719 L 3.730469 9.082031 C 3.717448 9.238281 3.704427 9.392904 3.691406 9.545898 C 3.678385 9.698894 3.671875 9.853516 3.671875 10.009766 C 3.671875 10.159506 3.678385 10.3125 3.691406 10.46875 C 3.704427 10.625 3.717448 10.777995 3.730469 10.927734 L 1.425781 12.363281 L 2.265625 14.394531 L 4.912109 13.779297 C 5.113932 14.026693 5.320638 14.254558 5.532227 14.462891 C 5.743815 14.671225 5.973307 14.879558 6.220703 15.087891 L 5.605469 17.734375 L 7.636719 18.574219 L 9.082031 16.269531 C 9.231771 16.282553 9.384766 16.295572 9.541016 16.308594 C 9.697266 16.321615 9.85026 16.328125 10 16.328125 C 10.15625 16.328125 10.310872 16.321615 10.463867 16.308594 C 10.616861 16.295572 10.771484 16.282553 10.927734 16.269531 L 12.363281 18.574219 L 14.394531 17.734375 L 13.779297 15.087891 C 14.026691 14.886068 14.254557 14.679362 14.462891 14.467773 C 14.671224 14.256186 14.879557 14.026693 15.087891 13.779297 L 17.734375 14.394531 L 18.574219 12.363281 Z M 10 6.328125 C 10.507812 6.328125 10.9847 6.424154 11.430664 6.616211 C 11.876627 6.80827 12.265624 7.070313 12.597656 7.402344 C 12.929687 7.734376 13.19173 8.123373 13.383789 8.569336 C 13.575846 9.0153 13.671875 9.492188 13.671875 10 C 13.671875 10.507812 13.575846 10.984701 13.383789 11.430664 C 13.19173 11.876628 12.929687 12.265625 12.597656 12.597656 C 12.265624 12.929688 11.876627 13.191732 11.430664 13.383789 C 10.9847 13.575847 10.507812 13.671875 10 13.671875 C 9.492188 13.671875 9.015299 13.575847 8.569336 13.383789 C 8.123372 13.191732 7.734375 12.929688 7.402344 12.597656 C 7.070312 12.265625 6.808268 11.876628 6.616211 11.430664 C 6.424153 10.984701 6.328125 10.507812 6.328125 10 C 6.328125 9.492188 6.424153 9.0153 6.616211 8.569336 C 6.808268 8.123373 7.070312 7.734376 7.402344 7.402344 C 7.734375 7.070313 8.123372 6.80827 8.569336 6.616211 C 9.015299 6.424154 9.492188 6.328125 10 6.328125 Z M 10 12.578125 C 10.358072 12.578125 10.693359 12.511394 11.005859 12.37793 C 11.318359 12.244467 11.591797 12.060547 11.826172 11.826172 C 12.060547 11.591797 12.244466 11.318359 12.37793 11.005859 C 12.511393 10.693359 12.578125 10.358073 12.578125 10 C 12.578125 9.641928 12.511393 9.306641 12.37793 8.994141 C 12.244466 8.681641 12.060547 8.408203 11.826172 8.173828 C 11.591797 7.939453 11.318359 7.755534 11.005859 7.62207 C 10.693359 7.488607 10.358072 7.421875 10 7.421875 C 9.641927 7.421875 9.306641 7.488607 8.994141 7.62207 C 8.681641 7.755534 8.408203 7.939453 8.173828 8.173828 C 7.939453 8.408203 7.755533 8.681641 7.62207 8.994141 C 7.488606 9.306641 7.421875 9.641928 7.421875 10 C 7.421875 10.358073 7.488606 10.693359 7.62207 11.005859 C 7.755533 11.318359 7.939453 11.591797 8.173828 11.826172 C 8.408203 12.060547 8.681641 12.244467 8.994141 12.37793 C 9.306641 12.511394 9.641927 12.578125 10 12.578125 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </RadioButton>
+                                </StackPanel>
+                                <!--#endregion-->
+
+                            </DockPanel>
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region 内容视图 -->
+                        <materialDesign:Transitioner x:Name="Facer" Margin="70,0,10,0" SelectedIndex="0" AutoApplyTransitionOrigins="True">
+                            
+                            <!--#region 库 -->
+                            <materialDesign:TransitionerSlide>
+                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                    <materialDesign:SlideWipe Direction="Up" />
+                                </materialDesign:TransitionerSlide.ForwardWipe>
+                                <DockPanel>
+
+                                    <!--#region 左侧工具列表 -->
+                                    <Border MinWidth="290" DockPanel.Dock="Left">
+                                        <Border x:Name="Dragable" BorderThickness="1" BorderBrush="Transparent" Margin="10" CornerRadius="5" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                                            <Grid>
+
+                                                <!--#region 上层筛选器组 -->
+                                                <Grid VerticalAlignment="Top" Height="120">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="5*"/>
+                                                        <RowDefinition Height="5*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!--#region 一层 -->
+                                                    <Grid Grid.Row="0">
+                                                        <Border CornerRadius="5" Background="{DynamicResource MaterialDesignPaper}" Margin="5,5,5,5"/>
+                                                        <DockPanel VerticalAlignment="Center">
+
+                                                            <!--#region 按钮组 -->
+                                                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                                                <!--主页-->
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="{DynamicResource Left_Home}" Margin="10,4,4,4" Click="Go_Homepage">
+                                                                    <Path Fill="{DynamicResource Linear_Blue_2_1}" Width="20" Height="20" Data="F1 M 10 1.621094 L 19.189453 10.810547 L 18.310547 11.689453 L 17.5 10.888672 L 17.5 18.75 L 12.5 18.75 L 12.5 12.5 L 7.5 12.5 L 7.5 18.75 L 2.5 18.75 L 2.5 10.888672 L 1.689453 11.689453 L 0.810547 10.810547 L 10 1.621094 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Button>
+                                                                <!--收藏-->
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="{DynamicResource Left_Favorite}" Margin="4,4,10,4">
+                                                                    <Path Fill="{DynamicResource Linear_Blue_2_1}" Width="20" Height="20" Data="F1 M 13.828125 12.246094 L 16.25 20 L 10 15.195312 L 3.75 20 L 6.171875 12.246094 L 0 7.5 L 7.65625 7.5 L 10 0 L 12.34375 7.5 L 20 7.5 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Button>
+                                                            </StackPanel>
+                                                            <!--#endregion-->
+
+                                                            <!--#region 类别组 -->
+                                                            <ComboBox ToolTip="{DynamicResource Left_Sort_Tip}" SelectedIndex="0" Margin="0,0,15,0" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                                <ComboBoxItem Content="{DynamicResource Left_Sort_All}"/>
+                                                                <ComboBoxItem Content="{DynamicResource Left_Sort_Process}"/>
+                                                                <ComboBoxItem Content="{DynamicResource Left_Sort_Program}"/>
+                                                                <ComboBoxItem Content="{DynamicResource Left_Sort_Normal}"/>
+                                                                <ComboBoxItem Content="{DynamicResource Left_Sort_Design}"/>
+                                                                <ComboBoxItem Content="{DynamicResource Left_Sort_System}"/>
+                                                            </ComboBox>
+                                                            <!--#endregion-->
+
+                                                        </DockPanel>
+                                                    </Grid>
+                                                    <!--#endregion-->
+
+                                                    <!--#region 二层 -->
+                                                    <Grid Grid.Row="1">
+                                                        <Border CornerRadius="5" Background="{DynamicResource MaterialDesignPaper}" Margin="5,5,5,5"/>
+                                                        <DockPanel VerticalAlignment="Center">
+
+                                                            <!--#region 按钮组 -->
+                                                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                                                <!--历史-->
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="{DynamicResource Left_Histroy}" Margin="4,4,1,4">
+                                                                    <Path Fill="{DynamicResource MaterialDesignToolForeground}" Width="20" Height="20" Data="F1 M 10 20 C 9.192708 20 8.416341 19.895834 7.670898 19.6875 C 6.925456 19.479166 6.228841 19.18457 5.581055 18.803711 C 4.933268 18.422852 4.344075 17.967123 3.813477 17.436523 C 3.282877 16.905924 2.827148 16.316732 2.446289 15.668945 C 2.06543 15.021159 1.770833 14.324545 1.5625 13.579102 C 1.354167 12.833659 1.25 12.057292 1.25 11.25 C 1.25 10.442709 1.354167 9.666342 1.5625 8.920898 C 1.770833 8.175456 2.06543 7.478842 2.446289 6.831055 C 2.827148 6.183269 3.282877 5.594076 3.813477 5.063477 C 4.344075 4.532879 4.933268 4.077149 5.581055 3.696289 C 6.228841 3.31543 6.925456 3.020834 7.670898 2.8125 C 8.416341 2.604168 9.192708 2.5 10 2.5 C 10.807291 2.5 11.583658 2.604168 12.329102 2.8125 C 13.074543 3.020834 13.771158 3.31543 14.418945 3.696289 C 15.066731 4.077149 15.655924 4.532879 16.186523 5.063477 C 16.717121 5.594076 17.172852 6.183269 17.553711 6.831055 C 17.93457 7.478842 18.229166 8.175456 18.4375 8.920898 C 18.645832 9.666342 18.75 10.442709 18.75 11.25 C 18.75 12.057292 18.645832 12.833659 18.4375 13.579102 C 18.229166 14.324545 17.93457 15.021159 17.553711 15.668945 C 17.172852 16.316732 16.717121 16.905924 16.186523 17.436523 C 15.655924 17.967123 15.066731 18.422852 14.418945 18.803711 C 13.771158 19.18457 13.074543 19.479166 12.329102 19.6875 C 11.583658 19.895834 10.807291 20 10 20 Z M 10 3.75 C 8.964844 3.75 7.993164 3.946941 7.084961 4.34082 C 6.176758 4.734701 5.382487 5.271811 4.702148 5.952148 C 4.02181 6.632487 3.4847 7.426758 3.09082 8.334961 C 2.69694 9.243164 2.5 10.214844 2.5 11.25 C 2.5 12.285156 2.69694 13.256836 3.09082 14.165039 C 3.4847 15.073242 4.02181 15.867514 4.702148 16.547852 C 5.382487 17.228189 6.176758 17.765299 7.084961 18.15918 C 7.993164 18.553061 8.964844 18.75 10 18.75 C 11.035156 18.75 12.006836 18.553061 12.915039 18.15918 C 13.823242 17.765299 14.617513 17.228189 15.297852 16.547852 C 15.978189 15.867514 16.515299 15.073242 16.90918 14.165039 C 17.303059 13.256836 17.5 12.285156 17.5 11.25 C 17.5 10.214844 17.303059 9.243164 16.90918 8.334961 C 16.515299 7.426758 15.978189 6.632487 15.297852 5.952148 C 14.617513 5.271811 13.823242 4.734701 12.915039 4.34082 C 12.006836 3.946941 11.035156 3.75 10 3.75 Z M 10 11.25 L 10 6.25 L 8.75 6.25 L 8.75 12.5 L 13.75 12.5 L 13.75 11.25 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Button>
+                                                                <!--筛选器-->
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="{DynamicResource Left_Filter}" Margin="1,4,8,4">
+                                                                    <Path Fill="{DynamicResource MaterialDesignToolForeground}" Width="20" Height="20" Data="F1 M 20 1.25 L 20 3.388672 L 12.5 10.888672 L 12.5 18.75 L 7.5 18.75 L 7.5 10.888672 L 0 3.388672 L 0 1.25 Z M 18.75 2.5 L 1.25 2.5 L 1.25 2.861328 L 8.75 10.361328 L 8.75 17.5 L 11.25 17.5 L 11.25 10.361328 L 18.75 2.861328 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Button>
+                                                            </StackPanel>
+                                                            <!--#endregion-->
+
+                                                            <!--#region 搜索框 -->
+                                                            <TextBox Margin="15,0,0,0" Height="40" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" Foreground="{DynamicResource MaterialDesignToolTipBackground}"
+                                                                         materialDesign:HintAssist.Hint="{DynamicResource Left_Search}" BorderBrush="{DynamicResource Linear_Purple_5_1}"
+                                                                         materialDesign:HintAssist.Foreground="{DynamicResource PrimaryHueMidBrush}" TextChanged="Searching"
+                                                                         materialDesign:HintAssist.FloatingScale="0.8" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                            <!--#endregion-->
+
+                                                        </DockPanel>
+                                                    </Grid>
+                                                    <!--#endregion-->
+
+                                                </Grid>
+                                                <!--#endregion-->
+
+                                                <!--#region 工具条列表 -->
+                                                <ScrollViewer Margin="0,120,0,10" x:Name="toolLister" Style="{StaticResource ListViewScrollViewerStyle}">
+                                                    <ListBox Margin="0,0,10,0" x:Name="ToolsList" LostFocus="ToolsList_LostFocus" AllowDrop="True" Drop="ToolsList_Drop" DragEnter="ToolsList_DragEnter" DragLeave="ToolsList_DragLeave"/>
+                                                </ScrollViewer>
+                                                <!--#endregion-->
+
+                                                <!--#region 底部按钮 -->
+                                                <Grid VerticalAlignment="Bottom">
+                                                    <!--添加工具-->
+                                                    <Button x:Name="Adder" Click="Adder_Click" Margin="20" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" HorizontalAlignment="Left" Background="{DynamicResource Linear_Blue_3_1}" BorderBrush="{DynamicResource Linear_Blue_3_1}">
+                                                        <Path Fill="{DynamicResource MaterialDesignBackground}" Margin="10" StrokeThickness="3"  Data="F1 M 20 9.375 L 20 10.625 L 10.625 10.625 L 10.625 20 L 9.375 20 L 9.375 10.625 L 0 10.625 L 0 9.375 L 9.375 9.375 L 9.375 0 L 10.625 0 L 10.625 9.375 Z " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    </Button>
+                                                    <!--回到顶部-->
+                                                    <hc:GotoTop Width="45" Height="45" Foreground="{DynamicResource MaterialDesignColumnHeader}" Background="{DynamicResource MaterialDesignBackground}" Animated="True" AutoHiding="True" AnimationTime="1000" Target="{Binding ElementName=toolLister}" HorizontalAlignment="Right" Margin="15" BorderBrush="{x:Null}"/>
+                                                </Grid>
+                                                <!--#endregion-->
+
+                                            </Grid>
+                                        </Border>
+                                    </Border>
+                                    <!--#endregion-->
+
+                                    <!--#region 右侧详细信息 -->
+                                    <Grid>
+                                        <materialDesign:Transitioner SelectedIndex="0" x:Name="LibViewer" AutoApplyTransitionOrigins="True">
+                                            <!--<materialDesign:Transitioner.InputBindings>
+                                                <KeyBinding Key="Left" Command="{x:Static materialDesign:Transitioner.MovePreviousCommand}" />
+                                                <KeyBinding Key="Right" Command="{x:Static materialDesign:Transitioner.MoveNextCommand}" />
+                                            </materialDesign:Transitioner.InputBindings>-->
+                                            
+                                            <!--#region 主页 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <Grid x:Name="HomePage">
+                                                    <controls:Developing/>
+                                                </Grid>
+                                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Left"/>
+                                                </materialDesign:TransitionerSlide.ForwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                            <!--#region 详细信息 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <Grid x:Name="Panel">
+                                                    <Grid x:Name="Tools" Margin="10">
+                                                        <ScrollViewer Style="{StaticResource ListViewScrollViewerStyle}">
+                                                            <Grid x:Name="Container">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="3*"/>
+                                                                    <RowDefinition Height="7*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid Grid.Row="0">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="3*"/>
+                                                                        <ColumnDefinition Width="7*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <!--图标-->
+                                                                    <Image x:Name="ToolCover" Margin="10" Grid.Column="0" Source="{DynamicResource Icon}">
+                                                                        <Image.ContextMenu>
+                                                                            <ContextMenu>
+                                                                                <MenuItem Header="{DynamicResource Panel_SaveIcon}" Click="SaveIcon"/>
+                                                                            </ContextMenu>
+                                                                        </Image.ContextMenu>
+                                                                    </Image>
+                                                                    
+                                                                    <!--#region 详细信息栏 -->
+                                                                    <DockPanel Grid.Column="1" MinHeight="200" Margin="0,0,0,10">
+                                                                        <TextBlock DockPanel.Dock="Top" FontSize="30" FontWeight="Bold" Text="{DynamicResource ToolName}" Foreground="{DynamicResource LinearBlue}"/>
+                                                                        <WrapPanel DockPanel.Dock="Top">
+                                                                            <hc:Shield Subject="{DynamicResource Panel_Publisher}" Cursor="Hand" Status="{DynamicResource Publisher}" Margin="4" Color="{DynamicResource LinearBlue}" Command="hc:ControlCommands.OpenLink" CommandParameter="{DynamicResource HostLink}" ToolTip="{DynamicResource HostLink}"/>
+                                                                            <hc:Shield Subject="{DynamicResource Panel_LastPostedTime}" Status="{DynamicResource LastPostedTime}" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                            <hc:Shield Subject="{DynamicResource Panel_CurrentVersion}" Status="{DynamicResource InstalledVersion}" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                            <hc:Shield Subject="{DynamicResource Panel_Help}" Cursor="Hand" Status="{DynamicResource HelpLink}" Margin="4" Color="{DynamicResource LinearBlue}" Command="hc:ControlCommands.OpenLink" CommandParameter="{DynamicResource HelpLink}"/>
+                                                                            <hc:Shield Subject="{DynamicResource Panel_Tag}" x:Name="Tager" Cursor="Hand" Status="{DynamicResource Tag}" Margin="4" Color="{DynamicResource LinearWarning}"/>
+                                                                            <hc:Shield Subject="{DynamicResource Panel_Language}" Status="{DynamicResource LangProvided}" Margin="4" Color="{DynamicResource LinearWarning}"/>
+                                                                        </WrapPanel>
+                                                                        <ScrollViewer MaxHeight="100" Margin="0,0,10,0" Style="{StaticResource ListViewScrollViewerStyle}">
+                                                                            <TextBlock Foreground="{DynamicResource MaterialDesignToolForeground}" Text="{DynamicResource Discription}" Margin="4" FontSize="18" TextWrapping="Wrap"/>
+                                                                        </ScrollViewer>
+                                                                    </DockPanel>
+                                                                    <!--#endregion-->
+                                                                    
+                                                                </Grid>
+                                                                <GridSplitter ResizeDirection="Rows" Height="5" HorizontalAlignment ="Stretch" VerticalAlignment ="Bottom" Background="{DynamicResource Linear_Blue_2_1}"/>
+                                                                <Grid Grid.Row="1">
+                                                                    <controls:Developing/>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </ScrollViewer>
+                                                    </Grid>
+                                                </Grid>
+                                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Right"/>
+                                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                        </materialDesign:Transitioner>
+                                        <Button x:Name="ReFresher" Click="ReFresher_Click" Margin="30" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{DynamicResource LinearBlue}" BorderBrush="{DynamicResource LinearBlue}">
+                                            <Path Fill="{DynamicResource MaterialDesignBackground}" Margin="8" StrokeThickness="3" Data="F1 M 12.666016 0.371094 C 13.746744 0.664062 14.736328 1.12142 15.634766 1.743164 C 16.533203 2.36491 17.306314 3.100586 17.954102 3.950195 C 18.601887 4.799805 19.104816 5.740561 19.462891 6.772461 C 19.820963 7.804362 20 8.880209 20 10 C 20 10.917969 19.881184 11.803386 19.643555 12.65625 C 19.405924 13.509115 19.070637 14.306641 18.637695 15.048828 C 18.204752 15.791016 17.683918 16.466473 17.075195 17.075195 C 16.466471 17.68392 15.791016 18.204752 15.048828 18.637695 C 14.306641 19.070639 13.509114 19.405924 12.65625 19.643555 C 11.803385 19.881186 10.917969 20 10 20 C 9.082031 20 8.196614 19.881186 7.34375 19.643555 C 6.490885 19.405924 5.693359 19.070639 4.951172 18.637695 C 4.208984 18.204752 3.533528 17.68392 2.924805 17.075195 C 2.316081 16.466473 1.795247 15.791016 1.362305 15.048828 C 0.929362 14.306641 0.594076 13.510742 0.356445 12.661133 C 0.118815 11.811523 0 10.924479 0 10 C 0 9.088542 0.120443 8.203125 0.361328 7.34375 C 0.602214 6.484376 0.945638 5.675457 1.391602 4.916992 C 1.837565 4.158529 2.379557 3.468426 3.017578 2.84668 C 3.655599 2.224936 4.375 1.692709 5.175781 1.25 L 2.5 1.25 L 2.5 0 L 7.5 0 L 7.5 5 L 6.25 5 L 6.25 2.099609 C 5.488281 2.464193 4.799805 2.921551 4.18457 3.47168 C 3.569336 4.021811 3.04362 4.640301 2.607422 5.327148 C 2.171224 6.013998 1.835938 6.754558 1.601562 7.548828 C 1.367188 8.3431 1.25 9.160156 1.25 10 C 1.25 10.800781 1.354167 11.573894 1.5625 12.319336 C 1.770833 13.064779 2.06543 13.761394 2.446289 14.40918 C 2.827148 15.056967 3.284505 15.647787 3.818359 16.181641 C 4.352213 16.715496 4.943034 17.172852 5.59082 17.553711 C 6.238606 17.93457 6.933593 18.229166 7.675781 18.4375 C 8.417969 18.645834 9.192708 18.75 10 18.75 C 10.800781 18.75 11.573893 18.645834 12.319336 18.4375 C 13.064778 18.229166 13.761393 17.93457 14.40918 17.553711 C 15.056965 17.172852 15.647785 16.715496 16.181641 16.181641 C 16.715494 15.647787 17.172852 15.056967 17.553711 14.40918 C 17.93457 13.761394 18.229166 13.066406 18.4375 12.324219 C 18.645832 11.582031 18.75 10.807292 18.75 10 C 18.75 9.023438 18.592121 8.082683 18.276367 7.177734 C 17.960611 6.272787 17.519531 5.44922 16.953125 4.707031 C 16.386719 3.964844 15.711263 3.321941 14.926758 2.77832 C 14.142252 2.234701 13.277994 1.832684 12.333984 1.572266 L 12.666016 0.371094 Z" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Button>
+                                    </Grid>
+                                    <!--#endregion-->
+
+                                </DockPanel>
+                            </materialDesign:TransitionerSlide>
+                            <!--#endregion-->
+                            
+                            <!--#region 市场 -->
+                            <materialDesign:TransitionerSlide>
+                                <Grid>
+                                    <DockPanel Height="60" VerticalAlignment="Top">
+                                        <Button x:Name="Btn_Market_Flush" Click="RefreshMarket" Style="{StaticResource MaterialDesignOutlinedButton}" DockPanel.Dock="Right">
+                                            <Path Margin="2" Data="F1 M 12.666016 0.371094 C 13.746744 0.664062 14.736328 1.12142 15.634766 1.743164 C 16.533203 2.36491 17.306314 3.100586 17.954102 3.950195 C 18.601887 4.799805 19.104816 5.740561 19.462891 6.772461 C 19.820963 7.804362 20 8.880209 20 10 C 20 10.917969 19.881184 11.803386 19.643555 12.65625 C 19.405924 13.509115 19.070637 14.306641 18.637695 15.048828 C 18.204752 15.791016 17.683918 16.466473 17.075195 17.075195 C 16.466471 17.68392 15.791016 18.204752 15.048828 18.637695 C 14.306641 19.070639 13.509114 19.405924 12.65625 19.643555 C 11.803385 19.881186 10.917969 20 10 20 C 9.082031 20 8.196614 19.881186 7.34375 19.643555 C 6.490885 19.405924 5.693359 19.070639 4.951172 18.637695 C 4.208984 18.204752 3.533528 17.68392 2.924805 17.075195 C 2.316081 16.466473 1.795247 15.791016 1.362305 15.048828 C 0.929362 14.306641 0.594076 13.510742 0.356445 12.661133 C 0.118815 11.811523 0 10.924479 0 10 C 0 9.088542 0.120443 8.203125 0.361328 7.34375 C 0.602214 6.484376 0.945638 5.675457 1.391602 4.916992 C 1.837565 4.158529 2.379557 3.468426 3.017578 2.84668 C 3.655599 2.224936 4.375 1.692709 5.175781 1.25 L 2.5 1.25 L 2.5 0 L 7.5 0 L 7.5 5 L 6.25 5 L 6.25 2.099609 C 5.488281 2.464193 4.799805 2.921551 4.18457 3.47168 C 3.569336 4.021811 3.04362 4.640301 2.607422 5.327148 C 2.171224 6.013998 1.835938 6.754558 1.601562 7.548828 C 1.367188 8.3431 1.25 9.160156 1.25 10 C 1.25 10.800781 1.354167 11.573894 1.5625 12.319336 C 1.770833 13.064779 2.06543 13.761394 2.446289 14.40918 C 2.827148 15.056967 3.284505 15.647787 3.818359 16.181641 C 4.352213 16.715496 4.943034 17.172852 5.59082 17.553711 C 6.238606 17.93457 6.933593 18.229166 7.675781 18.4375 C 8.417969 18.645834 9.192708 18.75 10 18.75 C 10.800781 18.75 11.573893 18.645834 12.319336 18.4375 C 13.064778 18.229166 13.761393 17.93457 14.40918 17.553711 C 15.056965 17.172852 15.647785 16.715496 16.181641 16.181641 C 16.715494 15.647787 17.172852 15.056967 17.553711 14.40918 C 17.93457 13.761394 18.229166 13.066406 18.4375 12.324219 C 18.645832 11.582031 18.75 10.807292 18.75 10 C 18.75 9.023438 18.592121 8.082683 18.276367 7.177734 C 17.960611 6.272787 17.519531 5.44922 16.953125 4.707031 C 16.386719 3.964844 15.711263 3.321941 14.926758 2.77832 C 14.142252 2.234701 13.277994 1.832684 12.333984 1.572266 L 12.666016 0.371094 Z " Fill="{DynamicResource MaterialDesignToolTipBackground}" Stretch="Uniform" />
+                                        </Button>
+                                        <Grid>
+                                            
+                                        </Grid>
+                                    </DockPanel>
+                                    <hc:ScrollViewer Margin="0,60,8,10">
+                                        <WrapPanel x:Name="Market">
+                                            
+                                        </WrapPanel>
+                                    </hc:ScrollViewer>
+                                </Grid>
+                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                    <materialDesign:SlideWipe Direction="Down"/>
+                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                    <materialDesign:SlideWipe Direction="Up" />
+                                </materialDesign:TransitionerSlide.ForwardWipe>
+                            </materialDesign:TransitionerSlide>
+                            <!--#endregion-->
+                            
+                            <!--#region 任务计划 -->
+                            <materialDesign:TransitionerSlide ClipToBounds="True">
+                                <Grid>
+                                    <controls:Developing/>
+                                </Grid>
+                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                    <materialDesign:SlideWipe Direction="Down"/>
+                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                    <materialDesign:SlideWipe Direction="Up" />
+                                </materialDesign:TransitionerSlide.ForwardWipe>
+                            </materialDesign:TransitionerSlide>
+                            <!--#endregion-->
+                            
+                            <!--#region 账户 -->
+                            <materialDesign:TransitionerSlide ClipToBounds="True">
+
+                                <materialDesign:Transitioner x:Name="Acc_Pages" SelectedIndex="0">
+                                    
+                                    <!--#region 登录 -->
+                                    <materialDesign:TransitionerSlide>
+
+                                        <Grid x:Name="SignInWin" Width="310" Height="470" Margin="8">
+                                            <Grid.Triggers>
+                                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                    <BeginStoryboard Storyboard="{StaticResource SignBig}"/>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                    <BeginStoryboard Storyboard="{StaticResource SignSmall}"/>
+                                                </EventTrigger>
+                                            </Grid.Triggers>
+                                            <Border CornerRadius="5" Background="{DynamicResource MaterialDesignToolBarBackground}"/>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="2.5*"/>
+                                                    <RowDefinition Height="5*"/>
+                                                    <RowDefinition Height="2.5*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" Text="{DynamicResource Sign_Signin}" FontSize="28" Foreground="{DynamicResource MaterialDesignToolTipBackground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <StackPanel Margin="20,0" Grid.Row="1">
+                                                    <TextBox x:Name="SignIn_ID_Box" Margin="0,5" GotFocus="CantMove" LostFocus="CanMove" materialDesign:HintAssist.Hint="{DynamicResource Sign_Id}" FontSize="18" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                    <PasswordBox x:Name="SignIn_Pwd_Box" Margin="0,5" GotFocus="CantMove" LostFocus="CanMove" materialDesign:HintAssist.Hint="{DynamicResource Sign_PwdBox}" FontSize="18" Foreground="{DynamicResource MaterialDesignToolTipBackground}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                    <Button Margin="0,10" Tag="uri:signin" Click="OpenLink" Content="{DynamicResource Sign_Signin}"/>
+                                                    <DockPanel>
+                                                        <Button Style="{StaticResource MaterialDesignOutlinedButton}" Click="Normal_Jump" Tag="3,1" DockPanel.Dock="Right" Content="{DynamicResource Sign_GoSignUp}"/>
+                                                        <CheckBox VerticalAlignment="Center" Content="{DynamicResource Sign_RememberPwd}" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                    </DockPanel>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+
+                                    </materialDesign:TransitionerSlide>
+                                    <!--#endregion-->
+                                    
+                                    <!--#region 注册 -->
+                                    <materialDesign:TransitionerSlide>
+                                        
+                                        <Grid>
+
+                                            <Grid x:Name="SignUpWin" Width="310" Height="470" Margin="8">
+                                                <Grid.Triggers>
+                                                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                        <BeginStoryboard Storyboard="{StaticResource SignBig}"/>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                        <BeginStoryboard Storyboard="{StaticResource SignSmall}"/>
+                                                    </EventTrigger>
+                                                </Grid.Triggers>
+                                                <Border CornerRadius="5" Background="{DynamicResource MaterialDesignToolBarBackground}"/>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="2.5*"/>
+                                                        <RowDefinition Height="7*"/>
+                                                        <RowDefinition Height="0.5*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{DynamicResource Sign_SignUp}" FontSize="28" Foreground="{DynamicResource MaterialDesignToolTipBackground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <StackPanel Margin="20,0" Grid.Row="1">
+                                                        <TextBox x:Name="SignUp_ID_Box" Margin="0,5" GotFocus="CantMove" LostFocus="CanMove" TextChanged="CheckSignUpFormat" materialDesign:HintAssist.Hint="{DynamicResource Sign_SignUp_Phone}" FontSize="16" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                        <TextBox x:Name="SignUp_Name_Box" Margin="0,5" GotFocus="CantMove" LostFocus="CanMove" TextChanged="CheckSignUpFormat" materialDesign:HintAssist.Hint="{DynamicResource Sign_SignUp_Name}" FontSize="16" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                        <PasswordBox x:Name="SignUp_PWD_Box" Margin="0,5" GotFocus="CantMove" LostFocus="CanMove" PasswordChanged="PasswordBox_PasswordChanged" materialDesign:HintAssist.Hint="{DynamicResource Sign_PwdBox}" FontSize="16" Foreground="{DynamicResource MaterialDesignToolTipBackground}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                        <PasswordBox x:Name="SignUp_RPWD_Box" Margin="0,5" GotFocus="CantMove" LostFocus="CanMove" PasswordChanged="PasswordBox_PasswordChanged" materialDesign:HintAssist.Hint="{DynamicResource Sign_SignUp_PwdRepeat}" FontSize="16" Foreground="{DynamicResource MaterialDesignToolTipBackground}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                        <Button Margin="0,10" Tag="uri:signup" Click="OpenLink" Content="{DynamicResource Sign_SignUp}"/>
+                                                        <Label/>
+                                                        <DockPanel>
+                                                            <Button Style="{StaticResource MaterialDesignOutlinedButton}" Click="Normal_Jump" Tag="3,0" DockPanel.Dock="Right" Content="{DynamicResource Sign_GoSignin}"/>
+                                                            <CheckBox x:Name="ShouldJumpToSignInAfterSignUp" VerticalAlignment="Center" Content="{DynamicResource Sign_SignInAfterSignUp}" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                        </DockPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Grid>
+
+                                            <Border x:Name="SignUpInfoBox" Height="300" Width="250" CornerRadius="5" Margin="0,0,20,0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignToolBarBackground}">
+                                                <Border.Triggers>
+                                                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                        <BeginStoryboard Storyboard="{StaticResource SignUpInfoBig}"/>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                        <BeginStoryboard Storyboard="{StaticResource SignUpInfoSmall}"/>
+                                                    </EventTrigger>
+                                                </Border.Triggers>
+                                                <DockPanel>
+                                                    <TextBox DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{DynamicResource Sign_SignUp_Info}" Margin="10" IsReadOnly="True"/>
+                                                    <hc:ScrollViewer>
+                                                        <TextBox x:Name="SignUpInfo" TextWrapping="Wrap" Foreground="Red" Margin="10" IsReadOnly="True"/>
+                                                    </hc:ScrollViewer>
+                                                </DockPanel>
+                                            </Border>
+                                            
+                                        </Grid>
+                                        
+                                    </materialDesign:TransitionerSlide>
+                                    <!--#endregion-->
+                                    
+                                    <!--#region 账户信息 -->
+                                    <materialDesign:TransitionerSlide>
+                                        
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"/>
+                                                <ColumnDefinition Width="7*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Border Grid.Column="0" Margin="0,0,4,0" CornerRadius="5" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}">
+                                                <Grid>
+                                                    <hc:Card x:Name="UserCard" Width="220" Height="330" BorderThickness="0" Background="{DynamicResource MaterialDesignCardBackground}" Effect="{DynamicResource EffectShadow2}" Margin="8">
+                                                        <hc:Card.Triggers>
+                                                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                                <BeginStoryboard Storyboard="{StaticResource UserCardBig}"/>
+                                                            </EventTrigger>
+                                                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                                <BeginStoryboard Storyboard="{StaticResource UserCardSmall}"/>
+                                                            </EventTrigger>
+                                                        </hc:Card.Triggers>
+                                                        <!--Card 的内容部分-->
+                                                        <Border CornerRadius="4,4,0,0" Width="160" Height="160">
+                                                            <Button Width="144" Height="144" Tag="uri:uploadicon" Click="OpenLink" Style="{StaticResource MaterialDesignIconButton}">
+                                                                <Image x:Name="UserIconBox" Source="{DynamicResource UserHeader}"/>
+                                                            </Button>
+                                                        </Border>
+                                                        <!--Card 的尾部部分-->
+                                                        <hc:Card.Footer>
+                                                            <StackPanel Margin="10" Width="160">
+                                                                <!--Card 的一级内容-->
+                                                                <TextBlock TextWrapping="NoWrap" Style="{DynamicResource TextBlockLargeBold}" Foreground="{DynamicResource MaterialDesignToolTipBackground}" TextTrimming="CharacterEllipsis" Text="{DynamicResource UserName}" HorizontalAlignment="Left"/>
+                                                                <!--Card 的二级内容-->
+                                                                <TextBlock TextWrapping="NoWrap" Style="{DynamicResource TextBlockDefault}" Foreground="{DynamicResource MaterialDesignToolTipBackground}" TextTrimming="CharacterEllipsis" Text="{DynamicResource UserMail}" Margin="0,6,0,0" HorizontalAlignment="Left"/>
+                                                            </StackPanel>
+                                                        </hc:Card.Footer>
+                                                    </hc:Card>
+                                                </Grid>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="1" Margin="4,0,0,0" CornerRadius="5" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}">
+                                                <hc:ScrollViewer Margin="10">
+                                                    <StackPanel Margin="10">
+                                                        <GroupBox FontSize="16" Header="{DynamicResource User_Info}" Margin="10" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0"
+                                                                  materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="{DynamicResource MaterialDesignCardBackground}"
+                                                                  materialDesign:ColorZoneAssist.Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                            <StackPanel>
+                                                                <!--<popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_ID}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <hc:PinBox IsEnabled="False" Foreground="{DynamicResource MaterialDesignToolTipBackground}" x:Name="UserIDBox" Length="18"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>-->
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Name}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserNameBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Mail}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserMailBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <!--<popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Phone}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserPhoneBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>-->
+                                                            </StackPanel>
+                                                        </GroupBox>
+                                                        <GroupBox FontSize="16" Header="{DynamicResource User_MoreInfo}" Margin="10" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0"
+                                                                  materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="{DynamicResource MaterialDesignCardBackground}"
+                                                                  materialDesign:ColorZoneAssist.Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                            <StackPanel>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" FontSize="16" Header="{DynamicResource User_Sex}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <ComboBox x:Name="UserSexBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                                            <ComboBoxItem Content="{DynamicResource User_Sex_Male}"/>
+                                                                            <ComboBoxItem Content="{DynamicResource User_Sex_Female}"/>
+                                                                            <ComboBoxItem Content="{DynamicResource User_Sex_Secret}"/>
+                                                                        </ComboBox>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Sign}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserSignBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Birthday}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <DatePicker GotFocus="CantMove" LostFocus="CanMove" x:Name="UserBirthBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}" SelectedDate="{DynamicResource UserBirthday}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_EducationBackground}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserEBBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Location}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserLocBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Job}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserJobBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                                <popc:InfoBar Foreground="{DynamicResource MaterialDesignToolTipBackground}" Header="{DynamicResource User_Describe}">
+                                                                    <popc:InfoBar.Content>
+                                                                        <TextBox GotFocus="CantMove" LostFocus="CanMove" x:Name="UserDcbBox" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                                                    </popc:InfoBar.Content>
+                                                                </popc:InfoBar>
+                                                            </StackPanel>
+                                                        </GroupBox>
+                                                        <GroupBox FontSize="16" Header="{DynamicResource User_Option}" Margin="10" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0"
+                                                              materialDesign:ColorZoneAssist.Mode="Custom" materialDesign:ColorZoneAssist.Background="{DynamicResource MaterialDesignCardBackground}"
+                                                              materialDesign:ColorZoneAssist.Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                            <StackPanel>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="4.9*"/>
+                                                                        <ColumnDefinition Width="0.2*"/>
+                                                                        <ColumnDefinition Width="4.9*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Button Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedButton}" Tag="config:download" Click="OpenLink">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Grid Width="20" Height="20">
+                                                                                <Path Fill="{DynamicResource Linear_Blue_2_2}" Data="F1 M 16.220703 8.75 C 16.741535 8.75 17.231445 8.847656 17.69043 9.042969 C 18.149414 9.238281 18.549805 9.503581 18.891602 9.838867 C 19.233398 10.174154 19.50358 10.569662 19.702148 11.025391 C 19.900715 11.48112 20 11.972656 20 12.5 C 20 13.020834 19.902344 13.507487 19.707031 13.959961 C 19.511719 14.412436 19.243164 14.80957 18.901367 15.151367 C 18.55957 15.493164 18.160807 15.761719 17.705078 15.957031 C 17.249348 16.152344 16.764322 16.25 16.25 16.25 L 5 16.25 C 4.309896 16.25 3.660482 16.119793 3.051758 15.859375 C 2.443034 15.598959 1.912435 15.242514 1.459961 14.790039 C 1.007487 14.337565 0.651042 13.806967 0.390625 13.198242 C 0.130208 12.589519 0 11.940104 0 11.25 C 0 10.559896 0.130208 9.910482 0.390625 9.301758 C 0.651042 8.693034 1.007487 8.162436 1.459961 7.709961 C 1.912435 7.257487 2.443034 6.901042 3.051758 6.640625 C 3.660482 6.380209 4.309896 6.25 5 6.25 C 5.299479 6.25 5.602213 6.279297 5.908203 6.337891 C 6.168619 5.934246 6.469726 5.57129 6.811523 5.249023 C 7.15332 4.926759 7.526041 4.654949 7.929688 4.433594 C 8.333333 4.21224 8.763021 4.042969 9.21875 3.925781 C 9.674479 3.808594 10.143229 3.75 10.625 3.75 C 11.347656 3.75 12.029622 3.876953 12.670898 4.130859 C 13.312174 4.384766 13.880208 4.734701 14.375 5.180664 C 14.869791 5.626629 15.278319 6.1556 15.600586 6.767578 C 15.922851 7.379558 16.129557 8.040365 16.220703 8.75 Z M 16.25 15 C 16.595051 15 16.918945 14.934896 17.22168 14.804688 C 17.524414 14.674479 17.789713 14.495443 18.017578 14.267578 C 18.245441 14.039714 18.424479 13.774414 18.554688 13.47168 C 18.684895 13.168945 18.75 12.845053 18.75 12.5 C 18.75 12.154948 18.684895 11.831055 18.554688 11.52832 C 18.424479 11.225586 18.245441 10.960287 18.017578 10.732422 C 17.789713 10.504558 17.524414 10.325521 17.22168 10.195312 C 16.918945 10.065104 16.595051 10 16.25 10 L 15 10 L 15 9.375 C 14.999999 8.769531 14.886066 8.201498 14.658203 7.670898 C 14.430338 7.140301 14.117838 6.676434 13.720703 6.279297 C 13.323566 5.882162 12.859699 5.569662 12.329102 5.341797 C 11.798502 5.113934 11.230469 5.000001 10.625 5 C 10.169271 5.000001 9.729817 5.06836 9.306641 5.205078 C 8.883463 5.341798 8.494466 5.533855 8.139648 5.78125 C 7.784831 6.028646 7.470703 6.326498 7.197266 6.674805 C 6.923828 7.023113 6.705729 7.41211 6.542969 7.841797 C 6.054688 7.613933 5.540364 7.5 5 7.5 C 4.479167 7.5 3.992513 7.597656 3.540039 7.792969 C 3.087565 7.988281 2.69043 8.256836 2.348633 8.598633 C 2.006836 8.94043 1.738281 9.339193 1.542969 9.794922 C 1.347656 10.250651 1.25 10.735678 1.25 11.25 C 1.25 11.770834 1.347656 12.257487 1.542969 12.709961 C 1.738281 13.162436 2.006836 13.55957 2.348633 13.901367 C 2.69043 14.243164 3.087565 14.511719 3.540039 14.707031 C 3.992513 14.902344 4.479167 15 5 15 Z " Stretch="Uniform" />
+                                                                                <Path Fill="{DynamicResource Linear_BlueToRed_3_2}" Margin="0,7,0,0" Data="F1 M 3.75 20 L 3.75 18.75 L 15 18.75 L 15 20 Z M 15.439453 10.439453 L 9.375 16.552734 L 3.310547 10.439453 L 4.189453 9.560547 L 8.75 14.150391 L 8.75 0 L 10 0 L 10 14.150391 L 14.560547 9.560547 Z " Stretch="Uniform" />
+                                                                            </Grid>
+                                                                            <Label/>
+                                                                            <TextBlock Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{DynamicResource User_Config_Download}"/>
+                                                                        </StackPanel>
+                                                                    </Button>
+                                                                    <Button Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedButton}" Tag="config:upload" Click="OpenLink">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Grid Width="20" Height="20">
+                                                                                <Path Fill="{DynamicResource Linear_Blue_2_2}" Data="F1 M 16.220703 8.75 C 16.741535 8.75 17.231445 8.847656 17.69043 9.042969 C 18.149414 9.238281 18.549805 9.503581 18.891602 9.838867 C 19.233398 10.174154 19.50358 10.569662 19.702148 11.025391 C 19.900715 11.48112 20 11.972656 20 12.5 C 20 13.020834 19.902344 13.507487 19.707031 13.959961 C 19.511719 14.412436 19.243164 14.80957 18.901367 15.151367 C 18.55957 15.493164 18.160807 15.761719 17.705078 15.957031 C 17.249348 16.152344 16.764322 16.25 16.25 16.25 L 5 16.25 C 4.309896 16.25 3.660482 16.119793 3.051758 15.859375 C 2.443034 15.598959 1.912435 15.242514 1.459961 14.790039 C 1.007487 14.337565 0.651042 13.806967 0.390625 13.198242 C 0.130208 12.589519 0 11.940104 0 11.25 C 0 10.559896 0.130208 9.910482 0.390625 9.301758 C 0.651042 8.693034 1.007487 8.162436 1.459961 7.709961 C 1.912435 7.257487 2.443034 6.901042 3.051758 6.640625 C 3.660482 6.380209 4.309896 6.25 5 6.25 C 5.299479 6.25 5.602213 6.279297 5.908203 6.337891 C 6.168619 5.934246 6.469726 5.57129 6.811523 5.249023 C 7.15332 4.926759 7.526041 4.654949 7.929688 4.433594 C 8.333333 4.21224 8.763021 4.042969 9.21875 3.925781 C 9.674479 3.808594 10.143229 3.75 10.625 3.75 C 11.347656 3.75 12.029622 3.876953 12.670898 4.130859 C 13.312174 4.384766 13.880208 4.734701 14.375 5.180664 C 14.869791 5.626629 15.278319 6.1556 15.600586 6.767578 C 15.922851 7.379558 16.129557 8.040365 16.220703 8.75 Z M 16.25 15 C 16.595051 15 16.918945 14.934896 17.22168 14.804688 C 17.524414 14.674479 17.789713 14.495443 18.017578 14.267578 C 18.245441 14.039714 18.424479 13.774414 18.554688 13.47168 C 18.684895 13.168945 18.75 12.845053 18.75 12.5 C 18.75 12.154948 18.684895 11.831055 18.554688 11.52832 C 18.424479 11.225586 18.245441 10.960287 18.017578 10.732422 C 17.789713 10.504558 17.524414 10.325521 17.22168 10.195312 C 16.918945 10.065104 16.595051 10 16.25 10 L 15 10 L 15 9.375 C 14.999999 8.769531 14.886066 8.201498 14.658203 7.670898 C 14.430338 7.140301 14.117838 6.676434 13.720703 6.279297 C 13.323566 5.882162 12.859699 5.569662 12.329102 5.341797 C 11.798502 5.113934 11.230469 5.000001 10.625 5 C 10.169271 5.000001 9.729817 5.06836 9.306641 5.205078 C 8.883463 5.341798 8.494466 5.533855 8.139648 5.78125 C 7.784831 6.028646 7.470703 6.326498 7.197266 6.674805 C 6.923828 7.023113 6.705729 7.41211 6.542969 7.841797 C 6.054688 7.613933 5.540364 7.5 5 7.5 C 4.479167 7.5 3.992513 7.597656 3.540039 7.792969 C 3.087565 7.988281 2.69043 8.256836 2.348633 8.598633 C 2.006836 8.94043 1.738281 9.339193 1.542969 9.794922 C 1.347656 10.250651 1.25 10.735678 1.25 11.25 C 1.25 11.770834 1.347656 12.257487 1.542969 12.709961 C 1.738281 13.162436 2.006836 13.55957 2.348633 13.901367 C 2.69043 14.243164 3.087565 14.511719 3.540039 14.707031 C 3.992513 14.902344 4.479167 15 5 15 Z " Stretch="Uniform" />
+                                                                                <Path Fill="{DynamicResource Linear_BlueToRed_3_2}" Margin="0,7,0,0" Data="F1 M 15 0 L 15 1.25 L 3.75 1.25 L 3.75 0 Z M 15.439453 9.560547 L 14.560547 10.439453 L 10 5.849609 L 10 20 L 8.75 20 L 8.75 5.849609 L 4.189453 10.439453 L 3.310547 9.560547 L 9.375 3.447266 Z " Stretch="Uniform" />
+                                                                            </Grid>
+                                                                            <Label/>
+                                                                            <TextBlock Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{DynamicResource User_Config_Upload}"/>
+                                                                        </StackPanel>
+                                                                    </Button>
+                                                                </Grid>
+                                                                <Label/>
+                                                                <DockPanel>
+                                                                    <Button DockPanel.Dock="Right" Content="{DynamicResource User_SignOut}" Tag="uri:signout" Click="OpenLink"/>
+                                                                    <Label DockPanel.Dock="Right"/>
+                                                                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Content="{DynamicResource User_SaveInfo}" Tag="uri:saveinfo" Click="OpenLink"/>
+                                                                </DockPanel>
+                                                            </StackPanel>
+                                                    </GroupBox>
+                                                </StackPanel>
+                                                </hc:ScrollViewer>
+                                            </Border>
+                                            
+                                        </Grid>
+                                        
+                                    </materialDesign:TransitionerSlide>
+                                    <!--#endregion-->
+                                    
+                                </materialDesign:Transitioner>
+                                
+                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                    <materialDesign:SlideWipe Direction="Down"/>
+                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                    <materialDesign:SlideWipe Direction="Up" />
+                                </materialDesign:TransitionerSlide.ForwardWipe>
+                            </materialDesign:TransitionerSlide>
+                            <!--#endregion-->
+                            
+                            <!--#region 设置 -->
+                            <materialDesign:TransitionerSlide>
+                                <Border>
+                                    <Grid Margin="10">
+                                        <Border CornerRadius="5" Background="{DynamicResource MaterialDesignChipBackground}" materialDesign:ShadowAssist.ShadowDepth="Depth3"/>
+
+                                        <materialDesign:Transitioner x:Name="Cog_Pages" SelectedIndex="0" AutoApplyTransitionOrigins="True" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+
+                                            <!--#region 环境 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <hc:ScrollViewer>
+                                                    <StackPanel Margin="5">
+                                                        
+                                                        <!--常规-->
+                                                        <Expander Header="{DynamicResource Cog_Enviroment_Normal}">
+                                                            <StackPanel Margin="20,10">
+                                                                <CheckBox IsChecked="{Binding ElementName=KeepToper, Path=IsChecked}" Content="{DynamicResource Cog_Enviroment_Normal_Topmost}"/>
+                                                                <Label/>
+                                                                <CheckBox IsChecked="{Binding ElementName=AppsBarManager, Path=IsChecked}" Content="{DynamicResource TitleBar_AppsBarManager_ToolTip}"/>
+                                                                <Label/>
+                                                                <Button Style="{StaticResource MaterialDesignOutlinedButton}" Content="{DynamicResource MainMenu_Help_CheckUpdate}" Click="CheckForUpdate"/>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--启动时-->
+                                                        <Expander Header="{DynamicResource Cog_Enviroment_Start}">
+                                                            <StackPanel Margin="20,10">
+                                                                <CheckBox x:Name="StartBySelf" IsThreeState="False" Checked="StartBySelf_Checked" Unchecked="StartBySelf_Unchecked" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Content="{DynamicResource Cog_Enviroment_Start_Self}"/>
+                                                                <Label/>
+                                                                <CheckBox x:Name="HideAtStart" Checked="HideAtStart_Checked" Unchecked="HideAtStart_Unchecked" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Content="{DynamicResource Cog_Enviroment_Start_Hide}"/>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--配置-->
+                                                        <Expander Header="{DynamicResource Cog_Enviroment_Config}">
+                                                            <StackPanel Margin="20,5">                                                                
+                                                                <DockPanel Margin="5">
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Enviroment_Config_ToolsPath_Self}" DockPanel.Dock="Right"/>
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Enviroment_Config_ToolsPath_Open}" DockPanel.Dock="Right" Tag="{Binding Text, ElementName=TPSetter, Converter={StaticResource GetOpenFolder}}" Click="OpenLink"/>
+                                                                    <Button Margin="5" Content="..." Style="{StaticResource MaterialDesignOutlinedButton}" Tag="TP" Click="PathSet" DockPanel.Dock="Right"/>
+                                                                    <TextBlock Margin="5" Text="{DynamicResource Cog_Enviroment_Config_ToolsPath}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                                                    <TextBox x:Name="TPSetter" VerticalAlignment="Center"/>
+                                                                </DockPanel>
+                                                                <DockPanel Margin="5">
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Enviroment_Config_ToolsPath_Self}" DockPanel.Dock="Right"/>
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Enviroment_Config_ToolsPath_Open}" DockPanel.Dock="Right" Tag="{Binding Text, ElementName=TWSetter, Converter={StaticResource GetOpenFolder}}" Click="OpenLink"/>
+                                                                    <Button Margin="5" Content="..." Style="{StaticResource MaterialDesignOutlinedButton}" Tag="TW" Click="PathSet" DockPanel.Dock="Right"/>
+                                                                    <TextBlock Margin="5" Text="{DynamicResource Cog_Enviroment_Config_ToolsBase}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                                                    <TextBox x:Name="TWSetter" VerticalAlignment="Center"/>
+                                                                </DockPanel>
+                                                                <DockPanel Margin="5">
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Enviroment_Config_ToolsPath_Self}" DockPanel.Dock="Right"/>
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Enviroment_Config_ToolsPath_Open}" DockPanel.Dock="Right" Tag="uri:logFile" Click="OpenLink"/>
+                                                                    <Button Margin="5" Content="..." Style="{StaticResource MaterialDesignOutlinedButton}" Tag="LP" Click="PathSet" DockPanel.Dock="Right"/>
+                                                                    <TextBlock Margin="5" Text="{DynamicResource Cog_Enviroment_Config_Log}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                                                    <TextBox x:Name="LPSetter" VerticalAlignment="Center"/>
+                                                                </DockPanel>
+                                                                <DockPanel>
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Apply}" DockPanel.Dock="Right"/>
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Restore}" Style="{StaticResource MaterialDesignOutlinedButton}" DockPanel.Dock="Right" Click="RefreshPathSetter"/>
+                                                                    <Button Margin="5" Content="{DynamicResource Cog_Cancle}" Style="{StaticResource MaterialDesignFlatAccentButton}" DockPanel.Dock="Right"/>
+                                                                    <Grid/>
+                                                                </DockPanel>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                        <!---->
+                                                        
+                                                    </StackPanel>
+                                                </hc:ScrollViewer>
+                                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Left" />
+                                                </materialDesign:TransitionerSlide.ForwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                            <!--#region 个性化 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <hc:ScrollViewer>
+                                                    <StackPanel Margin="5">
+                                                        <!--环境主题-->
+                                                        <Expander Header="{DynamicResource Cog_Individuation_Theme}">
+                                                            <Grid Margin="5">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolForeground}" Text="{DynamicResource TitleBar_Popup_Theme_Light}"/>
+                                                                <ToggleButton Click="ToggleButton_Theme_Click" IsChecked="{Binding ElementName=ToggleButton_Theme, Path=IsChecked}" Grid.Column="1" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="{DynamicResource TitleBar_Popup_Theme_Exchanger}"/>
+                                                                <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolForeground}" Text="{DynamicResource TitleBar_Popup_Theme_Dark}"/>
+                                                            </Grid>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--颜色主题-->
+                                                        <Expander Header="{DynamicResource Cog_Individuation_Color}">
+                                                            <Grid Margin="5">
+                                                                <TextBlock Text="{DynamicResource Other_Developing}" HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--图标主题-->
+                                                        <Expander Header="{DynamicResource Cog_Individuation_Icons}">
+                                                            <Grid Margin="5">
+                                                                <TextBlock Text="{DynamicResource Other_Developing}" HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--字体主题-->
+                                                        <Expander Header="{DynamicResource Cog_Individuation_Font}">
+                                                            <StackPanel Margin="5">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="1*"/>
+                                                                        <ColumnDefinition Width="1*"/>
+                                                                        <ColumnDefinition Width="8*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" TextAlignment="Center" Margin="5,0" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{DynamicResource Cog_Individuation_Font_Size}"/>
+                                                                    <TextBox IsReadOnly="True" TextAlignment="Center" Margin="5,0" VerticalAlignment="Center" Grid.Column="1" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Text="{Binding ElementName=fontSizer, Path=Value}"/>
+                                                                    <Slider x:Name="fontSizer" VerticalAlignment="Center" Grid.Column="2" Minimum="1" SmallChange="0.1" Maximum="128"/>
+                                                                </Grid>
+                                                                <Grid Margin="5">
+                                                                    <TextBlock Text="{DynamicResource Other_Developing}" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--按键主题-->
+                                                        <Expander Header="{DynamicResource Cog_Individuation_Key}">
+                                                            <StackPanel Margin="5">
+                                                                <DockPanel>
+                                                                    <TextBlock Text="{DynamicResource Cog_Individuation_Key_AppsBar_View}" DockPanel.Dock="Left"/>
+                                                                    <TextBox/>
+                                                                </DockPanel>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                    </StackPanel>
+                                                </hc:ScrollViewer>
+                                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Right"/>
+                                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Left" />
+                                                </materialDesign:TransitionerSlide.ForwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                            <!--#region 表现 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <hc:ScrollViewer>
+                                                    <controls:Developing Margin="0,0,0,30"/>
+                                                </hc:ScrollViewer>
+                                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Right"/>
+                                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Left" />
+                                                </materialDesign:TransitionerSlide.ForwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                            <!--#region 传输 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <hc:ScrollViewer>
+                                                    <controls:Developing Margin="0,0,0,30"/>
+                                                </hc:ScrollViewer>
+                                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Right"/>
+                                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                                <materialDesign:TransitionerSlide.ForwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Left" />
+                                                </materialDesign:TransitionerSlide.ForwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                            <!--#region 支持 -->
+                                            <materialDesign:TransitionerSlide>
+                                                <hc:ScrollViewer>
+                                                    <StackPanel Margin="5">
+                                                        <controls:Version MaxHeight="200"/>
+                                                        <Label/>
+                                                        <!--关于-->
+                                                        <Expander Header="{DynamicResource Cog_Support_About}">
+                                                            <StackPanel Margin="20,10">
+                                                                <WrapPanel>
+                                                                    <hc:Shield Subject="{DynamicResource Cog_Support_About_Version}" Status="v1.2.2" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                    <hc:Shield Subject="{DynamicResource Cog_Support_About_Author}" Status="Catrol" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                    <hc:Shield Subject="{DynamicResource Cog_Support_About_OfficialWebsite}" Status="http://works.catrol.cn/KitX/index.html" Margin="4" Color="{DynamicResource LinearBlue}" Click="OpenLink" Tag="http://works.catrol.cn/KitX/index.html"/>
+                                                                    <TextBlock Text="{DynamicResource Cog_Support_About_Copyright}" Margin="4" Foreground="{DynamicResource MaterialDesignToolForeground}"/>
+                                                                </WrapPanel>
+                                                                <Separator/>
+                                                                <TextBlock Text="{DynamicResource Cog_Support_About_ServerProvider}" Margin="4" Foreground="{DynamicResource MaterialDesignToolForeground}"/>
+                                                                <WrapPanel>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Catrol"/>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="常青园晚"/>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Dynesshely"/>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="皮安楼"/>
+                                                                </WrapPanel>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--翻译人员-->
+                                                        <Expander Header="{DynamicResource Cog_Support_About_Translator}">
+                                                            <WrapPanel Margin="20,10">
+                                                                <hc:Shield Subject="简体中文" Status="Catrol" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                <hc:Shield Subject="繁體中文" Status="Catrol with &quot;Stringer&quot;" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                <hc:Shield Subject="English(US)" Status="Catrol" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                                <hc:Shield Subject="わご" Status="皮安楼" Margin="4" Color="{DynamicResource LinearBlue}"/>
+                                                            </WrapPanel>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <!--第三方通知-->
+                                                        <Expander Header="{DynamicResource Cog_Support_About_ThirdParty}">
+                                                            <StackPanel Margin="20,10">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="{DynamicResource Cog_Support_About_ThirdParty_ReadIn}" Click="ReadInThirdParty"/>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="{DynamicResource Cog_Support_About_ThirdParty_WholeScreen}" Click="FullScreenReading"/>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="{DynamicResource Cog_Support_About_ThirdParty_GoWeb}" Click="OpenLink" Tag="http://docs.catrol.cn/?p=93"/>
+                                                                    <Button Margin="4" Style="{StaticResource MaterialDesignOutlinedButton}" Content="{DynamicResource Cog_Support_About_ThirdParty_Question}"/>
+                                                                </StackPanel>
+                                                                <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                                                    <TextBox x:Name="ThirdPartyNotificationBox" MaxLines="20" Margin="4" Text="Undefind... (Please press &quot;Load&quot; button first.)" Style="{DynamicResource TextBoxExtend}" IsReadOnly="True" TextWrapping="Wrap"/>
+                                                                </hc:ScrollViewer>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                        <Label/>
+                                                        <Expander Header="{DynamicResource Cog_Support_About_Portal}">
+                                                            <StackPanel Margin="20,10">
+                                                                <!--博客首页-->
+                                                                <Button Content="{DynamicResource Cog_Support_About_BlogHome}" Click="OpenLink" Tag="http://www.catrol.cn"/>
+                                                                <Label/>
+                                                                <!--友情链接-->
+                                                                <Button Content="{DynamicResource Cog_Support_About_Blogroll}" Click="OpenLink" Tag="http://www.catrol.cn/link/"/>
+                                                            </StackPanel>
+                                                        </Expander>
+                                                    </StackPanel>
+                                                </hc:ScrollViewer>
+                                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                                    <materialDesign:SlideWipe Direction="Right"/>
+                                                </materialDesign:TransitionerSlide.BackwardWipe>
+                                            </materialDesign:TransitionerSlide>
+                                            <!--#endregion-->
+                                            
+                                        </materialDesign:Transitioner>
+                                        
+                                        <!--#region 页面切换 -->
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20">
+                                            <Border Background="{DynamicResource MaterialDesignCardBackground}" CornerRadius="5"/>
+                                            <StackPanel Orientation="Horizontal" Margin="5">
+                                                <MenuItem Tag="0" Click="CogPageSelect" Header="{DynamicResource Cog_Enviroment}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                    <MenuItem.Icon>
+                                                        <Grid>
+                                                            <Path Fill="{DynamicResource MaterialDesignToolTipBackground}" Data="F1 M 17.412109 9.648438 C 17.412109 9.707031 17.413736 9.765625 17.416992 9.824219 C 17.420246 9.882812 17.421875 9.941406 17.421875 10 C 17.421875 10.058594 17.420246 10.117188 17.416992 10.175781 C 17.413736 10.234375 17.412109 10.292969 17.412109 10.351562 L 19.941406 11.923828 L 18.388672 15.664062 L 15.488281 15 C 15.332031 15.169271 15.169271 15.332031 15 15.488281 L 15.664062 18.388672 L 11.923828 19.941406 L 10.351562 17.412109 C 10.292969 17.412109 10.234375 17.413736 10.175781 17.416992 C 10.117188 17.420248 10.058594 17.421875 10 17.421875 C 9.941406 17.421875 9.882812 17.420248 9.824219 17.416992 C 9.765625 17.413736 9.707031 17.412109 9.648438 17.412109 L 8.076172 19.941406 L 4.335938 18.388672 L 5 15.488281 C 4.830729 15.332031 4.667969 15.169271 4.511719 15 L 1.611328 15.664062 L 0.058594 11.923828 L 2.587891 10.351562 C 2.587891 10.292969 2.586263 10.234375 2.583008 10.175781 C 2.579752 10.117188 2.578125 10.058594 2.578125 10 C 2.578125 9.941406 2.579752 9.882812 2.583008 9.824219 C 2.586263 9.765625 2.587891 9.707031 2.587891 9.648438 L 0.058594 8.076172 L 1.611328 4.335938 L 4.511719 5 C 4.667969 4.830729 4.830729 4.667969 5 4.511719 L 4.335938 1.611328 L 8.076172 0.058594 L 9.648438 2.587891 C 9.707031 2.587891 9.765625 2.586264 9.824219 2.583008 C 9.882812 2.579754 9.941406 2.578125 10 2.578125 C 10.058594 2.578125 10.117188 2.579754 10.175781 2.583008 C 10.234375 2.586264 10.292969 2.587891 10.351562 2.587891 L 11.923828 0.058594 L 15.664062 1.611328 L 15 4.511719 C 15.169271 4.667969 15.332031 4.830729 15.488281 5 L 18.388672 4.335938 L 19.941406 8.076172 Z M 16.269531 10.917969 C 16.282551 10.761719 16.295572 10.607097 16.308594 10.454102 C 16.321613 10.301107 16.328125 10.146484 16.328125 9.990234 C 16.328125 9.840495 16.321613 9.6875 16.308594 9.53125 C 16.295572 9.375 16.282551 9.222006 16.269531 9.072266 L 18.574219 7.636719 L 17.734375 5.605469 L 15.087891 6.220703 C 14.886067 5.973309 14.679361 5.745443 14.467773 5.537109 C 14.256184 5.328776 14.026691 5.120443 13.779297 4.912109 L 14.394531 2.265625 L 12.363281 1.425781 L 10.917969 3.730469 C 10.768229 3.717449 10.615234 3.704428 10.458984 3.691406 C 10.302734 3.678387 10.149739 3.671875 10 3.671875 C 9.84375 3.671875 9.689127 3.678387 9.536133 3.691406 C 9.383138 3.704428 9.228516 3.717449 9.072266 3.730469 L 7.636719 1.425781 L 5.605469 2.265625 L 6.220703 4.912109 C 5.973307 5.113933 5.745442 5.320639 5.537109 5.532227 C 5.328776 5.743816 5.120442 5.973309 4.912109 6.220703 L 2.265625 5.605469 L 1.425781 7.636719 L 3.730469 9.082031 C 3.717448 9.238281 3.704427 9.392904 3.691406 9.545898 C 3.678385 9.698894 3.671875 9.853516 3.671875 10.009766 C 3.671875 10.159506 3.678385 10.3125 3.691406 10.46875 C 3.704427 10.625 3.717448 10.777995 3.730469 10.927734 L 1.425781 12.363281 L 2.265625 14.394531 L 4.912109 13.779297 C 5.113932 14.026693 5.320638 14.254558 5.532227 14.462891 C 5.743815 14.671225 5.973307 14.879558 6.220703 15.087891 L 5.605469 17.734375 L 7.636719 18.574219 L 9.082031 16.269531 C 9.231771 16.282553 9.384766 16.295572 9.541016 16.308594 C 9.697266 16.321615 9.85026 16.328125 10 16.328125 C 10.15625 16.328125 10.310872 16.321615 10.463867 16.308594 C 10.616861 16.295572 10.771484 16.282553 10.927734 16.269531 L 12.363281 18.574219 L 14.394531 17.734375 L 13.779297 15.087891 C 14.026691 14.886068 14.254557 14.679362 14.462891 14.467773 C 14.671224 14.256186 14.879557 14.026693 15.087891 13.779297 L 17.734375 14.394531 L 18.574219 12.363281 Z M 10 6.328125 C 10.507812 6.328125 10.9847 6.424154 11.430664 6.616211 C 11.876627 6.80827 12.265624 7.070313 12.597656 7.402344 C 12.929687 7.734376 13.19173 8.123373 13.383789 8.569336 C 13.575846 9.0153 13.671875 9.492188 13.671875 10 C 13.671875 10.507812 13.575846 10.984701 13.383789 11.430664 C 13.19173 11.876628 12.929687 12.265625 12.597656 12.597656 C 12.265624 12.929688 11.876627 13.191732 11.430664 13.383789 C 10.9847 13.575847 10.507812 13.671875 10 13.671875 C 9.492188 13.671875 9.015299 13.575847 8.569336 13.383789 C 8.123372 13.191732 7.734375 12.929688 7.402344 12.597656 C 7.070312 12.265625 6.808268 11.876628 6.616211 11.430664 C 6.424153 10.984701 6.328125 10.507812 6.328125 10 C 6.328125 9.492188 6.424153 9.0153 6.616211 8.569336 C 6.808268 8.123373 7.070312 7.734376 7.402344 7.402344 C 7.734375 7.070313 8.123372 6.80827 8.569336 6.616211 C 9.015299 6.424154 9.492188 6.328125 10 6.328125 Z M 10 12.578125 C 10.358072 12.578125 10.693359 12.511394 11.005859 12.37793 C 11.318359 12.244467 11.591797 12.060547 11.826172 11.826172 C 12.060547 11.591797 12.244466 11.318359 12.37793 11.005859 C 12.511393 10.693359 12.578125 10.358073 12.578125 10 C 12.578125 9.641928 12.511393 9.306641 12.37793 8.994141 C 12.244466 8.681641 12.060547 8.408203 11.826172 8.173828 C 11.591797 7.939453 11.318359 7.755534 11.005859 7.62207 C 10.693359 7.488607 10.358072 7.421875 10 7.421875 C 9.641927 7.421875 9.306641 7.488607 8.994141 7.62207 C 8.681641 7.755534 8.408203 7.939453 8.173828 8.173828 C 7.939453 8.408203 7.755533 8.681641 7.62207 8.994141 C 7.488606 9.306641 7.421875 9.641928 7.421875 10 C 7.421875 10.358073 7.488606 10.693359 7.62207 11.005859 C 7.755533 11.318359 7.939453 11.591797 8.173828 11.826172 C 8.408203 12.060547 8.681641 12.244467 8.994141 12.37793 C 9.306641 12.511394 9.641927 12.578125 10 12.578125 Z "/>
+                                                        </Grid>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Tag="1" Click="CogPageSelect" Header="{DynamicResource Cog_Individuation}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                    <MenuItem.Icon>
+                                                        <Grid>
+                                                            <Path Fill="{DynamicResource MaterialDesignToolTipBackground}" Data="F1 M 10 17.5 L 10 18.75 L 12.5 18.75 L 12.5 20 L 6.25 20 L 6.25 18.75 L 8.75 18.75 L 8.75 17.5 L 0 17.5 L 0 6.25 L 10 6.25 L 8.740234 7.5 L 1.25 7.5 L 1.25 16.25 L 17.5 16.25 L 17.5 8.75 L 18.75 7.5 L 18.75 17.5 Z M 5 13.75 C 5.175781 13.75 5.338542 13.717448 5.488281 13.652344 C 5.638021 13.58724 5.769856 13.497722 5.883789 13.383789 C 5.997721 13.269857 6.087239 13.138021 6.152344 12.988281 C 6.217448 12.838542 6.25 12.675781 6.25 12.5 C 6.25 12.18099 6.306966 11.878256 6.420898 11.591797 C 6.53483 11.305339 6.69108 11.051433 6.889648 10.830078 C 7.088216 10.608725 7.322591 10.424805 7.592773 10.27832 C 7.862955 10.131836 8.157552 10.042318 8.476562 10.009766 L 15.419922 3.066406 C 15.602213 2.884115 15.813802 2.744141 16.054688 2.646484 C 16.295572 2.548828 16.542969 2.5 16.796875 2.5 C 17.063801 2.5 17.31608 2.550457 17.553711 2.651367 C 17.79134 2.752279 17.998047 2.890625 18.173828 3.066406 C 18.349609 3.242188 18.487955 3.448895 18.588867 3.686523 C 18.689777 3.924154 18.740234 4.179688 18.740234 4.453125 C 18.740234 4.707031 18.691406 4.954428 18.59375 5.195312 C 18.496094 5.436199 18.356119 5.647787 18.173828 5.830078 L 11.230469 12.773438 C 11.197916 13.085938 11.110025 13.378906 10.966797 13.652344 C 10.823567 13.925781 10.639648 14.161784 10.415039 14.360352 C 10.19043 14.55892 9.936523 14.71517 9.65332 14.829102 C 9.370117 14.943034 9.06901 15 8.75 15 L 2.5 15 L 2.5 13.75 Z M 16.796875 3.75 C 16.608072 3.75 16.445312 3.818359 16.308594 3.955078 L 11.962891 8.300781 C 12.333984 8.58724 12.66276 8.916016 12.949219 9.287109 L 17.294922 4.941406 C 17.431641 4.804688 17.5 4.641928 17.5 4.453125 C 17.5 4.257812 17.430012 4.091797 17.290039 3.955078 C 17.150064 3.818359 16.985676 3.75 16.796875 3.75 Z M 10.175781 10.087891 C 10.572916 10.348308 10.901692 10.677084 11.162109 11.074219 L 12.060547 10.185547 C 11.787109 9.794922 11.455078 9.462891 11.064453 9.189453 Z M 10 12.5 C 10 12.324219 9.967447 12.161459 9.902344 12.011719 C 9.837239 11.861979 9.747721 11.730144 9.633789 11.616211 C 9.519856 11.502279 9.388021 11.412761 9.238281 11.347656 C 9.088541 11.282553 8.925781 11.25 8.75 11.25 C 8.574219 11.25 8.411458 11.282553 8.261719 11.347656 C 8.111979 11.412761 7.980143 11.502279 7.866211 11.616211 C 7.752278 11.730144 7.66276 11.861979 7.597656 12.011719 C 7.532552 12.161459 7.5 12.324219 7.5 12.5 C 7.5 12.942709 7.389322 13.359375 7.167969 13.75 L 8.75 13.75 C 8.919271 13.75 9.080403 13.717448 9.233398 13.652344 C 9.386393 13.58724 9.519856 13.497722 9.633789 13.383789 C 9.747721 13.269857 9.837239 13.136394 9.902344 12.983398 C 9.967447 12.830404 10 12.669271 10 12.5 Z "/>
+                                                        </Grid>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Tag="2" Click="CogPageSelect" Header="{DynamicResource Cog_Performance}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                    <MenuItem.Icon>
+                                                        <Grid>
+                                                            <Path Fill="{DynamicResource MaterialDesignToolTipBackground}" Data="F1 M 9.375 0 C 10.234375 0 11.062825 0.112305 11.860352 0.336914 C 12.657877 0.561523 13.404947 0.877279 14.101562 1.28418 C 14.798176 1.691082 15.431314 2.179363 16.000977 2.749023 C 16.570637 3.318686 17.058918 3.951824 17.46582 4.648438 C 17.872721 5.345053 18.188477 6.092123 18.413086 6.889648 C 18.637695 7.687175 18.75 8.515625 18.75 9.375 C 18.75 10.234375 18.637695 11.062826 18.413086 11.860352 C 18.188477 12.657878 17.872721 13.404948 17.46582 14.101562 C 17.058918 14.798178 16.570637 15.431315 16.000977 16.000977 C 15.431314 16.570639 14.798176 17.05892 14.101562 17.46582 C 13.404947 17.872721 12.657877 18.188477 11.860352 18.413086 C 11.062825 18.637695 10.234375 18.75 9.375 18.75 C 8.515625 18.75 7.687174 18.637695 6.889648 18.413086 C 6.092122 18.188477 5.345052 17.872721 4.648438 17.46582 C 3.951823 17.05892 3.318685 16.570639 2.749023 16.000977 C 2.179362 15.431315 1.691081 14.798178 1.28418 14.101562 C 0.877279 13.404948 0.561523 12.657878 0.336914 11.860352 C 0.112305 11.062826 0 10.234375 0 9.375 C 0 8.515625 0.112305 7.687175 0.336914 6.889648 C 0.561523 6.092123 0.877279 5.345053 1.28418 4.648438 C 1.691081 3.951824 2.179362 3.318686 2.749023 2.749023 C 3.318685 2.179363 3.951823 1.691082 4.648438 1.28418 C 5.345052 0.877279 6.092122 0.561523 6.889648 0.336914 C 7.687174 0.112305 8.515625 0 9.375 0 Z M 9.375 17.5 C 10.123697 17.5 10.843099 17.402344 11.533203 17.207031 C 12.223307 17.011719 12.869465 16.738281 13.47168 16.386719 C 14.073893 16.035156 14.622396 15.611979 15.117188 15.117188 C 15.611979 14.622396 16.035156 14.073894 16.386719 13.47168 C 16.738281 12.869467 17.011719 12.223308 17.207031 11.533203 C 17.402344 10.8431 17.5 10.123698 17.5 9.375 C 17.5 8.626303 17.402344 7.906901 17.207031 7.216797 C 17.011719 6.526693 16.738281 5.880534 16.386719 5.27832 C 16.035156 4.676107 15.611979 4.127604 15.117188 3.632812 C 14.622396 3.138021 14.073893 2.714844 13.47168 2.363281 C 12.869465 2.011719 12.223307 1.738281 11.533203 1.542969 C 10.843099 1.347656 10.123697 1.25 9.375 1.25 C 8.626302 1.25 7.906901 1.347656 7.216797 1.542969 C 6.526692 1.738281 5.880533 2.011719 5.27832 2.363281 C 4.676106 2.714844 4.127604 3.138021 3.632812 3.632812 C 3.138021 4.127604 2.714844 4.676107 2.363281 5.27832 C 2.011719 5.880534 1.738281 6.526693 1.542969 7.216797 C 1.347656 7.906901 1.25 8.626303 1.25 9.375 C 1.25 10.123698 1.347656 10.8431 1.542969 11.533203 C 1.738281 12.223308 2.011719 12.869467 2.363281 13.47168 C 2.714844 14.073894 3.138021 14.622396 3.632812 15.117188 C 4.127604 15.611979 4.676106 16.035156 5.27832 16.386719 C 5.880533 16.738281 6.526692 17.011719 7.216797 17.207031 C 7.906901 17.402344 8.626302 17.5 9.375 17.5 Z M 11.054688 8.554688 C 11.184896 8.815104 11.25 9.088542 11.25 9.375 C 11.25 9.635417 11.201172 9.879558 11.103516 10.107422 C 11.005859 10.335287 10.872396 10.533854 10.703125 10.703125 C 10.533854 10.872396 10.335286 11.005859 10.107422 11.103516 C 9.879557 11.201172 9.635416 11.25 9.375 11.25 C 9.114583 11.25 8.870442 11.201172 8.642578 11.103516 C 8.414713 11.005859 8.216146 10.872396 8.046875 10.703125 C 7.877604 10.533854 7.74414 10.335287 7.646484 10.107422 C 7.548828 9.879558 7.5 9.635417 7.5 9.375 C 7.5 9.114584 7.548828 8.870443 7.646484 8.642578 C 7.74414 8.414714 7.877604 8.216146 8.046875 8.046875 C 8.216146 7.877604 8.414713 7.744141 8.642578 7.646484 C 8.870442 7.548828 9.114583 7.5 9.375 7.5 C 9.661458 7.5 9.934896 7.565104 10.195312 7.695312 L 10.185547 7.685547 L 13.779297 4.091797 L 14.658203 4.970703 L 11.064453 8.564453 Z M 9.375 10 C 9.544271 10 9.690755 9.938151 9.814453 9.814453 C 9.93815 9.690756 10 9.544271 10 9.375 C 10 9.205729 9.93815 9.059245 9.814453 8.935547 C 9.690755 8.81185 9.544271 8.75 9.375 8.75 C 9.205729 8.75 9.059244 8.81185 8.935547 8.935547 C 8.811849 9.059245 8.75 9.205729 8.75 9.375 C 8.75 9.544271 8.811849 9.690756 8.935547 9.814453 C 9.059244 9.938151 9.205729 10 9.375 10 Z M 15.625 6.5625 C 15.826822 7.005209 15.978189 7.462566 16.079102 7.93457 C 16.180012 8.406576 16.230469 8.886719 16.230469 9.375 C 16.230469 10.286459 16.05957 11.163737 15.717773 12.006836 C 15.375976 12.849936 14.882812 13.59375 14.238281 14.238281 L 13.349609 13.349609 C 13.876953 12.822266 14.283854 12.220053 14.570312 11.542969 C 14.85677 10.865886 14.999999 10.152995 15 9.404297 C 14.999999 8.597006 14.830729 7.819011 14.492188 7.070312 Z M 11.679688 4.257812 C 10.930989 3.919271 10.152994 3.75 9.345703 3.75 C 8.83138 3.75 8.336588 3.816732 7.861328 3.950195 C 7.386067 4.08366 6.940104 4.27409 6.523438 4.521484 C 6.106771 4.768881 5.729167 5.063477 5.390625 5.405273 C 5.052083 5.74707 4.760742 6.126303 4.516602 6.542969 C 4.272461 6.959637 4.083659 7.407228 3.950195 7.885742 C 3.816731 8.364258 3.75 8.860678 3.75 9.375 C 3.75 10.123698 3.893229 10.841472 4.179688 11.52832 C 4.466146 12.21517 4.873047 12.822266 5.400391 13.349609 L 4.511719 14.238281 C 3.860677 13.58724 3.36263 12.843425 3.017578 12.006836 C 2.672526 11.170248 2.5 10.292969 2.5 9.375 C 2.5 8.74349 2.58138 8.134766 2.744141 7.548828 C 2.906901 6.962892 3.138021 6.416017 3.4375 5.908203 C 3.736979 5.400392 4.095052 4.938152 4.511719 4.521484 C 4.928385 4.104818 5.390625 3.748373 5.898438 3.452148 C 6.40625 3.155926 6.953125 2.926434 7.539062 2.763672 C 8.125 2.600912 8.736979 2.519531 9.375 2.519531 C 9.863281 2.519531 10.343424 2.569988 10.81543 2.670898 C 11.287435 2.771811 11.744791 2.923178 12.1875 3.125 Z "/>
+                                                        </Grid>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Tag="3" Click="CogPageSelect" Header="{DynamicResource Cog_Diliver}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                    <MenuItem.Icon>
+                                                        <Grid>
+                                                            <Path Fill="{DynamicResource MaterialDesignToolTipBackground}" Data="F1 M 20 17.5 C 20 17.675781 19.967447 17.838541 19.902344 17.988281 C 19.837238 18.138021 19.747721 18.269857 19.633789 18.383789 C 19.519855 18.497721 19.38802 18.58724 19.238281 18.652344 C 19.088541 18.717447 18.925781 18.75 18.75 18.75 L 1.25 18.75 C 1.074219 18.75 0.911458 18.717447 0.761719 18.652344 C 0.611979 18.58724 0.480143 18.497721 0.366211 18.383789 C 0.252279 18.269857 0.16276 18.138021 0.097656 17.988281 C 0.032552 17.838541 0 17.675781 0 17.5 C 0 17.395834 0.009766 17.280273 0.029297 17.15332 C 0.048828 17.026367 0.078125 16.901041 0.117188 16.777344 C 0.15625 16.653646 0.205078 16.536459 0.263672 16.425781 C 0.322266 16.315104 0.390625 16.220703 0.46875 16.142578 L 2.5 14.111328 L 2.5 5 L 5.625 5 L 5.625 6.25 L 3.75 6.25 L 3.75 13.75 L 16.25 13.75 L 16.25 6.25 L 14.375 6.25 L 14.375 5 L 17.5 5 L 17.5 14.111328 L 19.53125 16.142578 C 19.609375 16.220703 19.677734 16.315104 19.736328 16.425781 C 19.794922 16.536459 19.84375 16.653646 19.882812 16.777344 C 19.921875 16.901041 19.951172 17.026367 19.970703 17.15332 C 19.990234 17.280273 20 17.395834 20 17.5 Z M 1.25 17.5 L 18.75 17.5 C 18.75 17.428385 18.736979 17.335611 18.710938 17.22168 C 18.684895 17.107748 18.645832 17.02474 18.59375 16.972656 L 16.611328 15 L 3.388672 15 L 1.40625 16.972656 C 1.354167 17.02474 1.315104 17.107748 1.289062 17.22168 C 1.263021 17.335611 1.25 17.428385 1.25 17.5 Z M 10.439453 7.060547 L 11.25 7.861328 L 11.25 1.25 L 12.5 1.25 L 12.5 7.861328 L 13.310547 7.060547 L 14.189453 7.939453 L 11.875 10.253906 L 9.560547 7.939453 Z M 7.5 3.388672 L 6.689453 4.189453 L 5.810547 3.310547 L 8.125 0.996094 L 10.439453 3.310547 L 9.560547 4.189453 L 8.75 3.388672 L 8.75 10 L 7.5 10 Z "/>
+                                                        </Grid>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Tag="4" Click="CogPageSelect" Header="{DynamicResource Cog_Support}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                                    <MenuItem.Icon>
+                                                        <Grid>
+                                                            <Path Fill="{DynamicResource MaterialDesignToolTipBackground}" Data="F1 M 20 1.25 L 20 8.75 C 20 9.440104 19.91048 10.104167 19.731445 10.742188 C 19.552408 11.380209 19.300129 11.977539 18.974609 12.53418 C 18.649088 13.09082 18.258463 13.597006 17.802734 14.052734 C 17.347004 14.508464 16.84082 14.899089 16.28418 15.224609 C 15.727539 15.550131 15.130208 15.802409 14.492188 15.981445 C 13.854166 16.160482 13.190104 16.25 12.5 16.25 C 11.608072 16.25 10.745442 16.100262 9.912109 15.800781 C 9.078775 15.501303 8.326822 15.058594 7.65625 14.472656 L 2.158203 19.970703 L 1.279297 19.091797 L 6.777344 13.59375 C 6.595052 13.385417 6.427408 13.167318 6.274414 12.939453 C 6.121419 12.711589 5.979817 12.473959 5.849609 12.226562 C 5.38737 12.408854 4.895833 12.5 4.375 12.5 C 3.769531 12.5 3.201497 12.386068 2.670898 12.158203 C 2.140299 11.930339 1.676432 11.617839 1.279297 11.220703 C 0.882161 10.823568 0.569661 10.359701 0.341797 9.829102 C 0.113932 9.298503 0 8.730469 0 8.125 L 0 3.75 L 4.375 3.75 C 4.746094 3.75 5.107422 3.795574 5.458984 3.886719 C 5.810547 3.977865 6.145833 4.114584 6.464844 4.296875 C 6.822916 3.815105 7.224935 3.385418 7.670898 3.007812 C 8.116861 2.630209 8.598633 2.311199 9.116211 2.050781 C 9.633789 1.790365 10.177408 1.591797 10.74707 1.455078 C 11.316731 1.318359 11.901041 1.25 12.5 1.25 Z M 1.25 8.125 C 1.25 8.554688 1.33138 8.959961 1.494141 9.34082 C 1.656901 9.72168 1.879883 10.053711 2.163086 10.336914 C 2.446289 10.620117 2.77832 10.8431 3.15918 11.005859 C 3.540039 11.16862 3.945312 11.25 4.375 11.25 C 4.713542 11.25 5.045573 11.191406 5.371094 11.074219 C 5.221354 10.611979 5.117188 10.14974 5.058594 9.6875 L 2.685547 7.314453 L 3.564453 6.435547 L 5.048828 7.910156 C 5.100911 7.460938 5.19043 7.02474 5.317383 6.601562 C 5.444336 6.178387 5.608724 5.764975 5.810547 5.361328 C 5.361328 5.120443 4.882812 5.000001 4.375 5 L 1.25 5 Z M 18.75 2.5 L 12.5 2.5 C 11.927083 2.5 11.373697 2.574871 10.839844 2.724609 C 10.305989 2.87435 9.807942 3.084311 9.345703 3.354492 C 8.883463 3.624676 8.461914 3.950195 8.081055 4.331055 C 7.700195 4.711914 7.374674 5.133464 7.104492 5.595703 C 6.83431 6.057943 6.624349 6.55599 6.474609 7.089844 C 6.32487 7.623698 6.25 8.177084 6.25 8.75 C 6.25 9.479167 6.368815 10.179037 6.606445 10.849609 C 6.844075 11.520183 7.19401 12.138672 7.65625 12.705078 L 14.560547 5.810547 L 15.439453 6.689453 L 8.544922 13.59375 C 9.111328 14.05599 9.729817 14.405925 10.400391 14.643555 C 11.070963 14.881186 11.770833 15 12.5 15 C 13.072916 15 13.626301 14.925131 14.160156 14.775391 C 14.69401 14.625651 15.192057 14.41569 15.654297 14.145508 C 16.116535 13.875326 16.538086 13.549805 16.918945 13.168945 C 17.299805 12.788086 17.625324 12.366537 17.895508 11.904297 C 18.165689 11.442058 18.37565 10.944011 18.525391 10.410156 C 18.675129 9.876303 18.75 9.322917 18.75 8.75 Z "/>
+                                                        </Grid>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </StackPanel>
+                                        </Grid>
+                                        <!--#endregion-->
+                                        
+                                    </Grid>
+                                </Border>
+                                <materialDesign:TransitionerSlide.BackwardWipe>
+                                    <materialDesign:SlideWipe Direction="Down"/>
+                                </materialDesign:TransitionerSlide.BackwardWipe>
+                            </materialDesign:TransitionerSlide>
+                            <!--#endregion-->
+                            
+                        </materialDesign:Transitioner>
+                        <!--#endregion-->
+
+                        <!--#region 托盘菜单 由 HandyControl 提供 -->
+                        <hc:NotifyIcon x:Name="NotifyIconContextContent" Text="KitX" Visibility="Visible" Icon="Source/KitX.png">
+
+                            <!--#region 富内容的右键菜单 -->
+                            <hc:NotifyIcon.ContextContent>
+                                <Grid>
+                                    <Border Height="200" Width="250" CornerRadius="5" Background="{DynamicResource MaterialDesignBackground}"/>
+                                    <DockPanel Height="200" Width="250">
+                                        <Grid Margin="10" DockPanel.Dock="Bottom">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="6*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Grid.Column="0" Margin="5" Style="{StaticResource MaterialDesignOutlinedButton}" Command="hc:ControlCommands.ShutdownApp" Click="ExitApp2" Content="{DynamicResource TitleBar_Popup_Button_Exit}"/>
+                                            <Button Grid.Column="1" Margin="5" Style="{StaticResource MaterialDesignRaisedLightButton}" Command="hc:ControlCommands.PushMainWindow2Top" Content="{DynamicResource TitleBar_Popup_Button_ShowMainWindow}"/>
+                                        </Grid>
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Center">
+                                                <TextBlock FontSize="20" TextAlignment="Center" Foreground="{DynamicResource MaterialDesignToolForeground}" Text="KitX"/>
+                                            </StackPanel>
+                                            <Image Margin="5" Source="Source/KitX.png" Stretch="Uniform"/>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Grid>
+                            </hc:NotifyIcon.ContextContent>
+                            <!--#endregion-->
+
+                            <!--#region 单击事件 -->
+                            <hc:Interaction.Triggers>
+                                <hc:EventTrigger EventName="Click">
+                                    <hc:EventToCommand Command="hc:ControlCommands.PushMainWindow2Top"/>
+                                </hc:EventTrigger>
+                            </hc:Interaction.Triggers>
+                            <!--#endregion-->                            
+
+                        </hc:NotifyIcon>
+                        <!--#endregion-->
+
+                    </Grid>
+                    <!--#endregion-->
+
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region 触发器 -->
+            <ControlTemplate.Triggers>
+                
+                <!--#region 最大化界面布局修正触发器 -->
+                <Trigger Property="WindowState" Value="Maximized">
+                    <Setter TargetName="RootGrid" Property="Margin" Value="6" />
+                </Trigger>
+                <!--#endregion-->
+                
+                <!--#region 标题动画触发器 -->
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="TitleBox">
+                    <BeginStoryboard Storyboard="{StaticResource TitleEffect}"/>
+                </EventTrigger>
+                <!--#endregion-->
+                
+            </ControlTemplate.Triggers>
+            <!--#endregion-->
+
+        </ControlTemplate>
+    </Window.Template>
+    <!--#endregion-->
+
+</Window>
