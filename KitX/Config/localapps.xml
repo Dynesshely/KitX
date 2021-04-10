@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<apps>
+  <app name="资源管理器" path="C:\Windows\explorer.exe" icon="self" argument=""/>
+  <app name="注册表编辑器" path="C:\Windows\regedit.exe" icon="self" argument=""/>
+  <app name="回收站" path="C:\Windows\explorer.exe" icon="C:\Users\23699\Pictures\node.js.png" argument="::{645FF040-5081-101B-9F08-00AA002F954E}"/>
+</apps>

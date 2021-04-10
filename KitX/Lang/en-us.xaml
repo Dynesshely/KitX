@@ -1,0 +1,229 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="TitleBar_Title">KitX - A versatile toolbox</sys:String>
+
+    <sys:String x:Key="MainMenu_Files">Files(_F)</sys:String>
+    <sys:String x:Key="MainMenu_Files_Exit">Exit(_E)</sys:String>
+    <sys:String x:Key="MainMenu_Files_ReStart">ReStart(_R)</sys:String>
+    <sys:String x:Key="MainMenu_Files_Open">Open...(_O)</sys:String>
+    <sys:String x:Key="MainMenu_Files_Export">Export(_T)</sys:String>
+    <sys:String x:Key="MainMenu_Files_Export_Config">Export Config(_C)</sys:String>
+    <sys:String x:Key="MainMenu_Files_Export_Tools">Export Tools(_T)</sys:String>
+
+    <sys:String x:Key="MainMenu_Edit">Edit(_E)</sys:String>
+    <sys:String x:Key="MainMenu_Edit_Redo">Redo(_Y)</sys:String>
+    <sys:String x:Key="MainMenu_Edit_Undo">Undo(_Z)</sys:String>
+    <sys:String x:Key="MainMenu_Edit_Cut">Cut(_X)</sys:String>
+    <sys:String x:Key="MainMenu_Edit_Copy">Copy(_C)</sys:String>
+    <sys:String x:Key="MainMenu_Edit_Paste">Paste(_V)</sys:String>
+    <sys:String x:Key="MainMenu_Edit_Options">Preference(_O)</sys:String>
+
+    <sys:String x:Key="MainMenu_View">View(_V)</sys:String>
+    <sys:String x:Key="MainMenu_View_Lib">Lib(_L)</sys:String>
+    <sys:String x:Key="MainMenu_View_Lib_Home">HomePage(_H)</sys:String>
+    <sys:String x:Key="MainMenu_View_Lib_Info">Info(_I)</sys:String>
+    <sys:String x:Key="MainMenu_View_Shop">Market(_S)</sys:String>
+    <sys:String x:Key="MainMenu_View_Plan">Plan(_P)</sys:String>
+    <sys:String x:Key="MainMenu_View_Acc">Account(_A)</sys:String>
+    <sys:String x:Key="MainMenu_View_Acc_SignIn">Sign In(_I)</sys:String>
+    <sys:String x:Key="MainMenu_View_Acc_SignUp">Sign Up(_U)</sys:String>
+    <sys:String x:Key="MainMenu_View_Acc_Info">Account Info(_A)</sys:String>
+    <sys:String x:Key="MainMenu_View_Cog">Settings(_C)</sys:String>
+    <sys:String x:Key="MainMenu_View_Cog_Environment">Environment(_E)</sys:String>
+    <sys:String x:Key="MainMenu_View_Cog_Personalize">Personalize(_P)</sys:String>
+    <sys:String x:Key="MainMenu_View_Cog_Nature">Performance(_N)</sys:String>
+    <sys:String x:Key="MainMenu_View_Cog_Deliver">Deliver(_D)</sys:String>
+    <sys:String x:Key="MainMenu_View_Cog_Support">Support(_S)</sys:String>
+
+    <sys:String x:Key="MainMenu_Help">Help(_H)</sys:String>
+    <sys:String x:Key="MainMenu_Help_View">View Help Document(_V)</sys:String>
+    <sys:String x:Key="MainMenu_Help_FeedBack">FeedBack(_F)</sys:String>
+    <sys:String x:Key="MainMenu_Help_FeedBack_Problem">Post problems(_P)</sys:String>
+    <sys:String x:Key="MainMenu_Help_FeedBack_Suggestion">Function Suggest(_S)</sys:String>
+    <sys:String x:Key="MainMenu_Help_FeedBack_Mine">My feedback(_M)</sys:String>
+    <sys:String x:Key="MainMenu_Help_Log">Log file(_L)</sys:String>
+    <sys:String x:Key="MainMenu_Help_TechSupport">Tech-Support(_T)</sys:String>
+    <sys:String x:Key="MainMenu_Help_Tsk">KitX Performance(_M)</sys:String>
+    <sys:String x:Key="MainMenu_Help_CheckUpdate">Check Update(_U)</sys:String>
+    <sys:String x:Key="MainMenu_Help_KeyBoardHelper">KeyBoard Helper(_K)</sys:String>
+    <sys:String x:Key="MainMenu_Help_About">About KitX(_A)</sys:String>
+
+    <sys:String x:Key="Left_Search">Search by Name</sys:String>
+    <sys:String x:Key="Left_Home">HomePage</sys:String>
+    <sys:String x:Key="Left_Favorite">Favorite</sys:String>
+    <sys:String x:Key="Left_Histroy">Rcently Used</sys:String>
+    <sys:String x:Key="Left_Filter">Filter</sys:String>
+    <sys:String x:Key="Left_Sort_Tip">Sort by Class</sys:String>
+    <sys:String x:Key="Left_Sort_All">All</sys:String>
+    <sys:String x:Key="Left_Sort_Process">Process</sys:String>
+    <sys:String x:Key="Left_Sort_Program">Program</sys:String>
+    <sys:String x:Key="Left_Sort_Normal">Normal</sys:String>
+    <sys:String x:Key="Left_Sort_Design">Design</sys:String>
+    <sys:String x:Key="Left_Sort_System">System</sys:String>
+    <sys:String x:Key="Left_Face_Lib">Library</sys:String>
+    <sys:String x:Key="Left_Face_Shop">Market</sys:String>
+    <sys:String x:Key="Left_Face_Task">TaskPlan</sys:String>
+    <sys:String x:Key="Left_Face_Acc">Account</sys:String>
+    <sys:String x:Key="Left_Face_Cog">Settings</sys:String>
+    <sys:String x:Key="Left_Home_Info">Markdown Page</sys:String>
+
+    <sys:String x:Key="TitleBar_Popup_Theme_Light">Light</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Theme_Dark">Dark</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Theme_Exchanger">Select Theme</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Lang_Exchanger">Select Language</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Button_User">User</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Button_Settings">Settings</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Button_Exit">Exit</sys:String>
+    <sys:String x:Key="TitleBar_Popup_Button_ShowMainWindow">Show MainWindow</sys:String>
+
+    <sys:String x:Key="TitleBar_Pin_ToolTip">Window TopMost</sys:String>
+    <sys:String x:Key="TitleBar_AppsBarManager_ToolTip">AppsBar Controller</sys:String>
+    <sys:String x:Key="TitleBar_AppsBarManager_ContextMenu_Close">Close AppsBar</sys:String>
+
+    <sys:String x:Key="Panel_Publisher">Publisher</sys:String>
+    <sys:String x:Key="Panel_LastPostedTime">Last Updated Date</sys:String>
+    <sys:String x:Key="Panel_CurrentVersion">Installed Version</sys:String>
+    <sys:String x:Key="Panel_Language">Language</sys:String>
+    <sys:String x:Key="Panel_Discription">Discription</sys:String>
+    <sys:String x:Key="Panel_Help">Open help link</sys:String>
+    <sys:String x:Key="Panel_Tag">Tag</sys:String>
+    <sys:String x:Key="Panel_SaveIcon">Save the icon</sys:String>
+
+    <sys:String x:Key="Item_AddToAppsBar">Fixation or not to AppsBar</sys:String>
+    <sys:String x:Key="Item_ShowMainWin">Run this tool</sys:String>
+    <sys:String x:Key="Item_CloseAll">Close All Windows</sys:String>
+    <sys:String x:Key="Item_Remove">Remove this tool</sys:String>
+
+    <sys:String x:Key="Guidence_Start">Start</sys:String>
+    <sys:String x:Key="Guidence_Skip">Skip</sys:String>
+    <sys:String x:Key="Guidence_Next">Next</sys:String>
+    <sys:String x:Key="Guidence_Back">Back</sys:String>
+
+    <sys:String x:Key="Cog_Enviroment">Enviroment</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Normal">Normal</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Normal_Topmost">TopMost</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Normal_SelectedPage">SelectedPage:</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Normal_CheckUpdate">Check for new version</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Lang">Language</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Lang_Installed">InstalledLanguage</sys:String>
+    <sys:String x:Key="Cog_Enviroment_WebBrowser">WebBrowser</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Terminal">Terminal</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Start">Start</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Start_Show">Should display MainWindow</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Start_AppsBar">Should display AppsBar</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Start_Self">Start by MySelf</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Start_Hide">Hide After Start</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Config">Configuration</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Config_ToolsPath">Tools Store Path</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Config_ToolsBase">Tools Workbase</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Config_ToolsPath_Self">Set in App Workbase</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Config_ToolsPath_Open">Open</sys:String>
+    <sys:String x:Key="Cog_Enviroment_Config_Log">Log file path</sys:String>
+    <sys:String x:Key="Cog_Individuation">Personalize</sys:String>
+    <sys:String x:Key="Cog_Individuation_Theme">Theme</sys:String>
+    <sys:String x:Key="Cog_Individuation_Color">Color</sys:String>
+    <sys:String x:Key="Cog_Individuation_Icons">Icons</sys:String>
+    <sys:String x:Key="Cog_Individuation_Font">Font</sys:String>
+    <sys:String x:Key="Cog_Individuation_Font_Size">FontSize</sys:String>
+    <sys:String x:Key="Cog_Individuation_Key">Hotkey Theme</sys:String>
+    <sys:String x:Key="Cog_Individuation_Key_AppsBar_View">Expand/PackUp AppsBar</sys:String>
+    <sys:String x:Key="Cog_Performance">Performance</sys:String>
+    <sys:String x:Key="Cog_Performance_Animation">Animation</sys:String>
+    <sys:String x:Key="Cog_Performance_Console">Console</sys:String>
+    <sys:String x:Key="Cog_Diliver">Diliver</sys:String>
+    <sys:String x:Key="Cog_Diliver_Speed">Speed</sys:String>
+    <sys:String x:Key="Cog_Diliver_Agency">Agency</sys:String>
+    <sys:String x:Key="Cog_Support">Support</sys:String>
+    <sys:String x:Key="Cog_Support_Tech">Tech-Support</sys:String>
+    <sys:String x:Key="Cog_Support_About">About</sys:String>
+    <sys:String x:Key="Cog_Support_About_Version">Version</sys:String>
+    <sys:String x:Key="Cog_Support_About_OfficialWebsite">Official Website</sys:String>
+    <sys:String x:Key="Cog_Support_About_Author">Author</sys:String>
+    <sys:String x:Key="Cog_Support_About_Copyright">Copyright © 2020-2021 Catrol All rights reserved.</sys:String>
+    <sys:String x:Key="Cog_Support_About_ServerProvider">Server Providers</sys:String>
+    <sys:String x:Key="Cog_Support_About_Translator">Interpreter</sys:String>
+    <sys:String x:Key="Cog_Support_About_Blogroll">Blogroll</sys:String>
+    <sys:String x:Key="Cog_Support_About_BlogHome">Blog home page</sys:String>
+    <sys:String x:Key="Cog_Support_About_ThirdParty">Third Party Notification</sys:String>
+    <sys:String x:Key="Cog_Support_About_ThirdParty_ReadIn">Load</sys:String>
+    <sys:String x:Key="Cog_Support_About_ThirdParty_WholeScreen">Full-screen reading</sys:String>
+    <sys:String x:Key="Cog_Support_About_ThirdParty_GoWeb">Online reading</sys:String>
+    <sys:String x:Key="Cog_Support_About_ThirdParty_Question">I have question</sys:String>
+    <sys:String x:Key="Cog_Support_About_Portal">Portal</sys:String>
+
+    <sys:String x:Key="Cog_Apply">Apply</sys:String>
+    <sys:String x:Key="Cog_Restore">Reset</sys:String>
+    <sys:String x:Key="Cog_Cancle">Cancle</sys:String>
+
+    <sys:String x:Key="AppsBar_Pin">Lock</sys:String>
+    <sys:String x:Key="AppsBar_ShowTime">Should show time</sys:String>
+    <sys:String x:Key="AppsBar_TimeSystem_12">12 Hours System</sys:String>
+    <sys:String x:Key="AppsBar_TimeSystem_24">24 Hours System</sys:String>
+    <sys:String x:Key="AppsBar_Location_Top">Top</sys:String>
+    <sys:String x:Key="AppsBar_Location_Bottom">Bottom</sys:String>
+    <sys:String x:Key="AppsBar_Ok">Okay</sys:String>
+
+    <sys:String x:Key="AppsBar_Web">Web Apps</sys:String>
+    <sys:String x:Key="AppsBar_Web_Refresh">Reload</sys:String>
+    <sys:String x:Key="AppsBar_Web_Add">Add</sys:String>
+    <sys:String x:Key="AppsBar_Web_Manager">Manage</sys:String>
+
+    <sys:String x:Key="Other_Developing">Developing......</sys:String>
+    <sys:String x:Key="Other_Reward">If you're willing，by rewarding can help me push the progress forward.</sys:String>
+    <sys:String x:Key="Other_Trace_1">View my Blog Website</sys:String>
+    <sys:String x:Key="Other_Trace_2">to trace the progress.</sys:String>
+
+    <sys:String x:Key="Sign_Signin">Sign In</sys:String>
+    <sys:String x:Key="Sign_GoSignin">Sign in</sys:String>
+    <sys:String x:Key="Sign_Id">&#160;e-mail/phone number</sys:String>
+    <sys:String x:Key="Sign_PwdBox">&#160;Your password</sys:String>
+    <sys:String x:Key="Sign_RememberPwd">Remember me</sys:String>
+    <sys:String x:Key="Sign_SignUp">Sign Up</sys:String>
+    <sys:String x:Key="Sign_GoSignUp">Sign up</sys:String>
+    <sys:String x:Key="Sign_SignInAfterSignUp">SignInAfterSignUp</sys:String>
+    <sys:String x:Key="Sign_SignUp_ID">&#160;ID</sys:String>
+    <sys:String x:Key="Sign_SignUp_Name">&#160;Name</sys:String>
+    <sys:String x:Key="Sign_SignUp_Pwd">&#160;Password</sys:String>
+    <sys:String x:Key="Sign_SignUp_PwdRepeat">&#160;Repeat password</sys:String>
+    <sys:String x:Key="Sign_SignUp_Mail">&#160;E-mail address</sys:String>
+    <sys:String x:Key="Sign_SignUp_Phone">&#160;Phone number</sys:String>
+    <sys:String x:Key="Sign_SignUp_Null">Can be null</sys:String>
+    <sys:String x:Key="Sign_SignUp_Info" xml:space="preserve">&#x000A;1.The ID is only be used in recognizing, can's being used in other ways&#x000A;2.The name is only used to display&#x000A;3.All item's length should be small than 255&#x000A;</sys:String>
+
+    <sys:String x:Key="User_Info">Uesr information</sys:String>
+    <sys:String x:Key="User_Name">User name</sys:String>
+    <sys:String x:Key="User_ID">User ID</sys:String>
+    <sys:String x:Key="User_Mail">User mail address</sys:String>
+    <sys:String x:Key="User_Phone">Security phone number</sys:String>
+    <sys:String x:Key="User_MoreInfo">More information</sys:String>
+    <sys:String x:Key="User_Birthday">Birthday</sys:String>
+    <sys:String x:Key="User_EducationBackground">Education background</sys:String>
+    <sys:String x:Key="User_Location">Location</sys:String>
+    <sys:String x:Key="User_Job">Job</sys:String>
+    <sys:String x:Key="User_Describe">Describe</sys:String>
+    <sys:String x:Key="User_Sign">Personalized signature</sys:String>
+    <sys:String x:Key="User_Sex">Sex</sys:String>
+    <sys:String x:Key="User_Option">Operate</sys:String>
+    <sys:String x:Key="User_SignOut">Sign out</sys:String>
+    <sys:String x:Key="User_Sex_Male">Male</sys:String>
+    <sys:String x:Key="User_Sex_Female">Female</sys:String>
+    <sys:String x:Key="User_Sex_Secret">Secret</sys:String>
+
+    <sys:String x:Key="User_SaveInfo">Save infomation</sys:String>
+    <sys:String x:Key="User_Config_Download">Download config from Cloud</sys:String>
+    <sys:String x:Key="User_Config_Upload">Upload native config to Cloud</sys:String>
+
+    <sys:String x:Key="Market_Install">Download</sys:String>
+    
+    <!--LAM - Local Apps Manager Window-->
+    <sys:String x:Key="LAM_Title">Local apps manager</sys:String>
+    <sys:String x:Key="LAM_Custom">Custom shortcut</sys:String>
+    <sys:String x:Key="LAM_Add">add</sys:String>
+    <sys:String x:Key="LAM_Del">remove</sys:String>
+    <sys:String x:Key="LAM_Find">option</sys:String>
+    <sys:String x:Key="LAM_Path">path</sys:String>
+    <sys:String x:Key="LAM_Icon">icon</sys:String>
+    <sys:String x:Key="LAM_Apply">Apply</sys:String>
+    <sys:String x:Key="LAM_Refresh">Refresh</sys:String>
+</ResourceDictionary>

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="KitX.Controls.ToolItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KitX"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" Width="300" d:DesignWidth="300" Background="Transparent">
+    <DockPanel x:Name="Container" Margin="0,0,20,0">
+        <Grid Width="{Binding ElementName=Container, Path=ActualHeight}" Height="{Binding ElementName=Container,Path=ActualHeight}" DockPanel.Dock="Left">
+            <Image x:Name="Header" Margin="5" MaxWidth="{Binding ElementName=Container, Path=ActualHeight}" MaxHeight="{Binding ElementName=Container,Path=ActualHeight}"/>
+        </Grid>
+        <materialDesign:PopupBox DockPanel.Dock="Right" StaysOpen="True" IsEnabled="{Binding IsChecked, ElementName=PopupEnabled}">
+            <StackPanel Orientation="Vertical" Width="400" Margin="8,8,8,8">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="Adder" Content="{DynamicResource Item_AddToAppsBar}"/>
+                    <Button Content="{DynamicResource Item_ShowMainWin}" Click="Button_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="{DynamicResource Item_CloseAll}" Click="Button_Click_1"/>
+                    <Button Content="{DynamicResource Item_Remove}" Click="Button_Click_2"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="_Save" Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}" />
+                    <Button Content="_Cancel" Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:PopupBox>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock x:Name="Namer" Foreground="{DynamicResource LinearBlue}" FontWeight="Bold"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="Publisher" Foreground="{DynamicResource Linear_Blue_2_1}" Grid.Column="0"/>
+                <TextBlock x:Name="Versioner" Foreground="{DynamicResource Linear_Blue_2_1}" Grid.Column="1"/>
+            </Grid>
+            <TextBlock x:Name="Description" Foreground="{DynamicResource Linear_Blue_2_1}"/>
+        </StackPanel>
+    </DockPanel>
+</UserControl>
