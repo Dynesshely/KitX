@@ -219,11 +219,14 @@
     
     <!--LAM - Local Apps Manager Window-->
     <sys:String x:Key="LAM_Title">本地应用管理器</sys:String>
+    <sys:String x:Key="LAM_XML">XML 配置文件</sys:String>
     <sys:String x:Key="LAM_Custom">自定义快捷方式</sys:String>
     <sys:String x:Key="LAM_Add">添加</sys:String>
     <sys:String x:Key="LAM_Del">移除</sys:String>
     <sys:String x:Key="LAM_Find">操作</sys:String>
+    <sys:String x:Key="LAM_Name">名称</sys:String>
     <sys:String x:Key="LAM_Path">路径</sys:String>
+    <sys:String x:Key="LAM_Argument">参数</sys:String>
     <sys:String x:Key="LAM_Icon">图标</sys:String>
     <sys:String x:Key="LAM_Apply">应用</sys:String>
     <sys:String x:Key="LAM_Refresh">刷新</sys:String>

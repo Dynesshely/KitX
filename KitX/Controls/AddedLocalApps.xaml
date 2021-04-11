@@ -3,10 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KitX.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        
-    </Grid>
+             xmlns:local="clr-namespace:KitX.Controls" Margin="0,5"
+             mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="280">
+    <UserControl.ContextMenu>
+        <ContextMenu Style="{StaticResource MaterialDesignContextMenu}">
+            <MenuItem Style="{StaticResource MaterialDesignMenuItem}" Click="MenuItem_Click" Header="{DynamicResource LAM_Del}"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <DockPanel>
+        <Grid Height="42" DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="IconBox" Margin="5" Grid.Column="0"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5.5*"/>
+                    <RowDefinition Height="4.5*"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="NameBox" Margin="5,0,0,0" Text="Name" FontSize="18" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Grid.Row="0"/>
+                <TextBlock x:Name="PathBox" Margin="5,0,0,0" Text="Path" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Grid.Row="1"/>
+            </Grid>
+        </Grid>
+        <Expander Margin="0,3,0,0" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Style="{StaticResource MaterialDesignExpander}" Header="{DynamicResource LAM_XML}" IsExpanded="False">
+            <TextBox x:Name="XmlCode" Margin="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True"/>
+        </Expander>
+    </DockPanel>
 </UserControl>

@@ -218,11 +218,14 @@
     
     <!--LAM - Local Apps Manager Window-->
     <sys:String x:Key="LAM_Title">Local apps manager</sys:String>
+    <sys:String x:Key="LAM_XML">XML Config File</sys:String>
     <sys:String x:Key="LAM_Custom">Custom shortcut</sys:String>
     <sys:String x:Key="LAM_Add">add</sys:String>
     <sys:String x:Key="LAM_Del">remove</sys:String>
     <sys:String x:Key="LAM_Find">option</sys:String>
+    <sys:String x:Key="LAM_Name">name</sys:String>
     <sys:String x:Key="LAM_Path">path</sys:String>
+    <sys:String x:Key="LAM_Argument">argument</sys:String>
     <sys:String x:Key="LAM_Icon">icon</sys:String>
     <sys:String x:Key="LAM_Apply">Apply</sys:String>
     <sys:String x:Key="LAM_Refresh">Refresh</sys:String>

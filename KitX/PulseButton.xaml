@@ -52,7 +52,7 @@
                                     </DoubleAnimationUsingKeyFrames>
                                 </Storyboard>
                             </ControlTemplate.Resources>
-                            <Border RenderTransformOrigin="0.5,0.5" x:Name="border" Width="Auto" Height="Auto" BorderBrush="{x:Null}" BorderThickness="5,5,5,5" CornerRadius="4,4,4,4" Background="{x:Null}">
+                            <Border RenderTransformOrigin="0.5,0.5" x:Name="border" Width="Auto" Height="Auto" BorderBrush="{x:Null}" BorderThickness="1" CornerRadius="5" Background="{x:Null}">
                                 <Border.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -61,15 +61,16 @@
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Border.RenderTransform>
-                                <ContentPresenter Width="Auto" Height="Auto" RenderTransformOrigin="0.403,0.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter Margin="5" Width="Auto" Height="Auto" RenderTransformOrigin="0.403,0.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="border">
                                     <BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
                                 </EventTrigger>
                                 <EventTrigger RoutedEvent="FrameworkElement.Loaded"/>
-                                <EventTrigger RoutedEvent="FrameworkElement.Loaded"/>
-                                <EventTrigger RoutedEvent="FrameworkElement.Loaded"/>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                </Trigger>
                                 <Trigger Property="IsKeyboardFocused" Value="True"/>
                                 <Trigger Property="Button.IsDefaulted" Value="True"/>
                                 <Trigger Property="IsPressed" Value="True"/>

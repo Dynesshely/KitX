@@ -122,6 +122,8 @@ namespace KitX
         /// </summary>
         public static void LazyClose() => new Thread(new ThreadStart(CloseEvent)).Start();
 
+        public static void LazyRestart() => new Thread(new ThreadStart(RestartEvent)).Start();
+
         /// <summary>
         /// 退出事件
         /// </summary>
@@ -130,6 +132,18 @@ namespace KitX
             Thread.Sleep(1000);
             SaveConfig();
             System.Diagnostics.Process.Start($"{WorkBase}\\kitX.Helper.Shutdown.vbs");
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// 重启事件
+        /// </summary>
+        public static void RestartEvent()
+        {
+            System.Diagnostics.Process.Start($"{WorkBase}\\kitX.Helper.Shutdown.vbs");
+            Thread.Sleep(1000);
+            SaveConfig();
+            System.Diagnostics.Process.Start($"{WorkBase}\\kitX.Helper.exe", "-r");
             Environment.Exit(0);
         }
         #endregion

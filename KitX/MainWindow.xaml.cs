@@ -38,6 +38,7 @@ namespace KitX
         public int LangIndex = 0; //语言组脚标
         readonly Helper.MySQLConnection msc = new Helper.MySQLConnection(); //数据库连接器
         private int nowIndex = 0; //工具市场加载下标
+        private bool willRestart = false;
         //private bool firLang = true;
 
         /// <summary>
@@ -49,7 +50,14 @@ namespace KitX
             Close();//关闭此窗体
             abc.Quit();//关闭工具栏
             msc.Dispose();//通知数据库连接器结束任务
-            App.LazyClose();//延时结束整个程序
+            if (willRestart)
+            {
+                App.LazyRestart();
+            }
+            else
+            {
+                App.LazyClose();//延时结束整个程序
+            }
         }
 
         /// <summary>
@@ -668,8 +676,9 @@ namespace KitX
         /// <param name="e"></param>
         private void ReStart(object sender, RoutedEventArgs e)
         {
+            willRestart = true;
             Quit();
-            Helper.Program.RestartMainDomain(App.WorkBase);
+            //Helper.Program.RestartMainDomain(App.WorkBase);
         }
 
         /// <summary>

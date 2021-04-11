@@ -218,11 +218,14 @@
     
     <!--LAM - Local Apps Manager Window-->
     <sys:String x:Key="LAM_Title">ネイティブ・アプリケーション・マネージャ</sys:String>
+    <sys:String x:Key="LAM_XML">XML プロファイル</sys:String>
     <sys:String x:Key="LAM_Custom">ショートカットをカスタマイズします</sys:String>
     <sys:String x:Key="LAM_Add">てんか</sys:String>
     <sys:String x:Key="LAM_Del">除去</sys:String>
     <sys:String x:Key="LAM_Find">操作</sys:String>
+    <sys:String x:Key="LAM_Name">名称</sys:String>
     <sys:String x:Key="LAM_Path">目录</sys:String>
+    <sys:String x:Key="LAM_Argument">パラメタ</sys:String>
     <sys:String x:Key="LAM_Icon">アイコン</sys:String>
     <sys:String x:Key="LAM_Apply">使用する</sys:String>
     <sys:String x:Key="LAM_Refresh">刷新する</sys:String>

@@ -9,7 +9,7 @@
         mc:Ignorable="d" Background="{DynamicResource MaterialDesignBackground}"
         xmlns:popc="clr-namespace:PopEye.WPF.Controls;assembly=PopEye.WPF"
         Title="{DynamicResource LAM_Title}" MinHeight="450" MinWidth="800" Height="670" Width="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Topmost="{Binding ElementName=KeepToper, Path=IsChecked}">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,76 +19,100 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="4*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="250"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
-            <hc:ScrollViewer Margin="10" Grid.Column="0">
-                <StackPanel>
-                    <Button x:Name="refresh_btn" Click="refresh_btn_Click" Content="{DynamicResource LAM_Refresh}" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5"/>
-                    <Button x:Name="apply_btn" Click="apply_btn_Click" Content="{DynamicResource LAM_Apply}" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5"/>
-                </StackPanel>
-            </hc:ScrollViewer>
-            <hc:ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                <hc:Transfer x:Name="LocalAppsList" Margin="10">
-                    <hc:Transfer.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel Height="32">
-                                <Image Height="24" Width="24" VerticalAlignment="Center" Margin="0,0,10,0" Source="{Binding Icon}"/>
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Path}" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
-                            </DockPanel>
-                        </DataTemplate>
-                    </hc:Transfer.ItemTemplate>
-                </hc:Transfer>
-            </hc:ScrollViewer>
-        </Grid>
-        <GroupBox Grid.Row="1" Grid.Column="0" Header="{DynamicResource LAM_Custom}" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
-            <hc:ScrollViewer>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="84"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Image x:Name="app_icon" Source="{Binding ElementName=add_path, Path=Text, Converter={StaticResource GetAppIcon}}" Width="64" Height="64" Margin="10"/>
-                    <StackPanel Grid.Column="1" Margin="20,16,17,10">
-                        <popc:InfoBar Header="{DynamicResource LAM_Path}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
-                            <popc:InfoBar.Content>
-                                <TextBox x:Name="add_path" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Margin="5" Style="{StaticResource MaterialDesignTextBox}"/>
-                            </popc:InfoBar.Content>
-                        </popc:InfoBar>
-                        <popc:InfoBar Header="{DynamicResource LAM_Icon}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
-                            <popc:InfoBar.Content>
-                                <TextBox x:Name="add_icon" Text="self" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Margin="5" Style="{StaticResource MaterialDesignTextBox}"/>
-                            </popc:InfoBar.Content>
-                        </popc:InfoBar>
-                        <popc:InfoBar Header="{DynamicResource LAM_Find}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
-                            <popc:InfoBar.Content>
-                                <hc:ScrollViewer>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="add_btn" Click="add_btn_Click" Content="{DynamicResource LAM_Add}" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5"/>
-                                    </StackPanel>
-                                </hc:ScrollViewer>
-                            </popc:InfoBar.Content>
-                        </popc:InfoBar>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <hc:ScrollViewer Margin="10" Grid.Column="0">
+                    <StackPanel>
+                        <Button x:Name="apply_btn" Click="apply_btn_Click" Content="{DynamicResource LAM_Apply}" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5"/>
                     </StackPanel>
-                </Grid>
-            </hc:ScrollViewer>
-        </GroupBox>
-        <materialDesign:Card Grid.Column="1" Grid.RowSpan="2" Margin="10">
-            <DockPanel>
-                <hc:ScrollViewer>
-                    <ListBox x:Name="AddedAppsList"/>
                 </hc:ScrollViewer>
-            </DockPanel>
-        </materialDesign:Card>
+                <hc:ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <hc:Transfer x:Name="LocalAppsList" Margin="10">
+                        <hc:Transfer.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Height="32">
+                                    <Image Height="24" Width="24" VerticalAlignment="Center" Margin="0,0,10,0" Source="{Binding Icon}"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Path}" Foreground="{DynamicResource MaterialDesignToolTipBackground}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </hc:Transfer.ItemTemplate>
+                    </hc:Transfer>
+                </hc:ScrollViewer>
+            </Grid>
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="{DynamicResource LAM_Custom}" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
+                <hc:ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="84"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="app_icon" Source="{Binding ElementName=add_path, Path=Text, Converter={StaticResource GetAppIcon}}" Width="64" Height="64" Margin="10"/>
+                        <StackPanel Grid.Column="1" Margin="20,16,17,10">
+                            <popc:InfoBar Header="{DynamicResource LAM_Name}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                <popc:InfoBar.Content>
+                                    <TextBox x:Name="add_name" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Margin="5" Style="{StaticResource MaterialDesignTextBox}"/>
+                                </popc:InfoBar.Content>
+                            </popc:InfoBar>
+                            <popc:InfoBar Header="{DynamicResource LAM_Path}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                <popc:InfoBar.Content>
+                                    <TextBox x:Name="add_path" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Margin="5" Style="{StaticResource MaterialDesignTextBox}"/>
+                                </popc:InfoBar.Content>
+                            </popc:InfoBar>
+                            <popc:InfoBar Header="{DynamicResource LAM_Argument}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                <popc:InfoBar.Content>
+                                    <TextBox x:Name="add_argu" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Margin="5" Style="{StaticResource MaterialDesignTextBox}"/>
+                                </popc:InfoBar.Content>
+                            </popc:InfoBar>
+                            <popc:InfoBar Header="{DynamicResource LAM_Icon}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                <popc:InfoBar.Content>
+                                    <TextBox x:Name="add_icon" Text="self" Foreground="{DynamicResource MaterialDesignToolTipBackground}" Margin="5" Style="{StaticResource MaterialDesignTextBox}"/>
+                                </popc:InfoBar.Content>
+                            </popc:InfoBar>
+                            <popc:InfoBar Header="{DynamicResource LAM_Find}" Foreground="{DynamicResource MaterialDesignToolTipBackground}">
+                                <popc:InfoBar.Content>
+                                    <hc:ScrollViewer>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="add_btn" Click="add_btn_Click" Content="{DynamicResource LAM_Add}" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5"/>
+                                        </StackPanel>
+                                    </hc:ScrollViewer>
+                                </popc:InfoBar.Content>
+                            </popc:InfoBar>
+                        </StackPanel>
+                    </Grid>
+                </hc:ScrollViewer>
+            </GroupBox>
+            <hc:Card Grid.Column="1" Grid.RowSpan="2" Margin="10">
+                <DockPanel>
+                    <Button Click="apply_btn_Click" DockPanel.Dock="Bottom" Content="{DynamicResource LAM_Apply}" Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                    <hc:ScrollViewer>
+                        <ListBox Margin="10,10,0,10" Style="{StaticResource MaterialDesignCardsListBox}" x:Name="AddedAppsList">
+                            <ListBox.ContextMenu>
+                                <ContextMenu Style="{StaticResource MaterialDesignContextMenu}">
+                                    <MenuItem Style="{StaticResource MaterialDesignMenuItem}" Click="refresh_btn_Click" Header="{DynamicResource LAM_Refresh}"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                        </ListBox>
+                    </hc:ScrollViewer>
+                </DockPanel>
+            </hc:Card>
+        </Grid>
+        <ToggleButton x:Name="KeepToper" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" ToolTip="{DynamicResource TitleBar_Pin_ToolTip}" Width="35" Background="Transparent" Style="{StaticResource MaterialDesignActionToggleButton}">
+            <Path Width="20" Height="20" Fill="{DynamicResource LinearBlue}" Data="F1 M 20 5 L 20 13.75 L 19.375 13.75 C 18.867188 13.75 18.401691 13.640951 17.978516 13.422852 C 17.555338 13.204753 17.190754 12.897136 16.884766 12.5 L 12.060547 12.5 C 11.878255 12.884115 11.650391 13.230795 11.376953 13.540039 C 11.103516 13.849284 10.795898 14.111328 10.454102 14.326172 C 10.112305 14.541016 9.744466 14.707031 9.350586 14.824219 C 8.956705 14.941406 8.548177 15 8.125 15 L 7.5 15 L 7.5 10 L 1.25 10 L 0 9.375 L 1.25 8.75 L 7.5 8.75 L 7.5 3.75 L 8.125 3.75 C 8.548177 3.75 8.956705 3.808594 9.350586 3.925781 C 9.744466 4.042969 10.112305 4.208984 10.454102 4.423828 C 10.795898 4.638672 11.103516 4.900717 11.376953 5.209961 C 11.650391 5.519207 11.878255 5.865887 12.060547 6.25 L 16.884766 6.25 C 17.190754 5.852865 17.555338 5.545248 17.978516 5.327148 C 18.401691 5.109051 18.867188 5.000001 19.375 5 Z M 18.75 6.357422 C 18.59375 6.409506 18.460285 6.47461 18.349609 6.552734 C 18.238932 6.63086 18.139648 6.717123 18.051758 6.811523 C 17.963867 6.905925 17.882486 7.011719 17.807617 7.128906 C 17.732746 7.246094 17.65625 7.369792 17.578125 7.5 L 11.201172 7.5 L 11.054688 7.080078 C 10.872396 6.565756 10.576172 6.129558 10.166016 5.771484 C 9.755859 5.413412 9.283854 5.179037 8.75 5.068359 L 8.75 13.681641 C 9.283854 13.570964 9.755859 13.336589 10.166016 12.978516 C 10.576172 12.620443 10.872396 12.184245 11.054688 11.669922 L 11.201172 11.25 L 17.578125 11.25 C 17.65625 11.380209 17.732746 11.503906 17.807617 11.621094 C 17.882486 11.738281 17.963867 11.844076 18.051758 11.938477 C 18.139648 12.032878 18.238932 12.119141 18.349609 12.197266 C 18.460285 12.275391 18.59375 12.340495 18.75 12.392578 Z "/>
+            <materialDesign:ToggleButtonAssist.OnContent>
+                <Path Width="20" Height="20" Fill="{DynamicResource LinearWarning}" Data="F1 M 19.433594 7.304688 C 19.21875 7.519531 19.008789 7.716472 18.803711 7.895508 C 18.598633 8.074545 18.387043 8.225912 18.168945 8.349609 C 17.950846 8.473308 17.713215 8.569336 17.456055 8.637695 C 17.198893 8.706055 16.907551 8.740234 16.582031 8.740234 C 16.360676 8.740234 16.149088 8.720703 15.947266 8.681641 L 12.246094 12.382812 C 12.330729 12.630209 12.392578 12.884115 12.431641 13.144531 C 12.470703 13.404948 12.490234 13.665365 12.490234 13.925781 C 12.490234 14.348959 12.447916 14.733073 12.363281 15.078125 C 12.278646 15.423178 12.156575 15.748698 11.99707 16.054688 C 11.837564 16.360678 11.64388 16.65202 11.416016 16.928711 C 11.18815 17.205404 10.930989 17.486979 10.644531 17.773438 L 6.875 14.003906 L 1.328125 19.560547 L 0 20 L 0.439453 18.671875 L 5.996094 13.125 L 2.226562 9.355469 L 2.666016 8.916016 C 3.121745 8.460287 3.644206 8.111979 4.233398 7.871094 C 4.822591 7.630209 5.439453 7.509766 6.083984 7.509766 C 6.617838 7.509766 7.128906 7.591146 7.617188 7.753906 L 11.318359 4.052734 C 11.279297 3.850912 11.259766 3.639324 11.259766 3.417969 C 11.259766 3.098959 11.293945 2.810873 11.362305 2.553711 C 11.430664 2.296551 11.526692 2.057293 11.650391 1.835938 C 11.774088 1.614584 11.925455 1.401367 12.104492 1.196289 C 12.283528 0.991211 12.480469 0.78125 12.695312 0.566406 Z M 16.582031 7.490234 C 16.940104 7.490235 17.278645 7.4056 17.597656 7.236328 L 12.763672 2.402344 C 12.5944 2.721355 12.509765 3.059896 12.509766 3.417969 C 12.509765 3.600262 12.530924 3.77116 12.573242 3.930664 C 12.61556 4.09017 12.66276 4.254558 12.714844 4.423828 L 7.910156 9.21875 C 7.747396 9.153646 7.594401 9.091797 7.451172 9.033203 C 7.307942 8.974609 7.164713 8.925781 7.021484 8.886719 C 6.878255 8.847656 6.730143 8.816732 6.577148 8.793945 C 6.424153 8.771159 6.259766 8.759766 6.083984 8.759766 C 5.712891 8.759766 5.35319 8.813477 5.004883 8.920898 C 4.656575 9.02832 4.332682 9.186198 4.033203 9.394531 L 10.605469 15.966797 C 10.813802 15.667318 10.973307 15.343425 11.083984 14.995117 C 11.194661 14.646811 11.25 14.290365 11.25 13.925781 C 11.25 13.75 11.238606 13.585612 11.21582 13.432617 C 11.193033 13.279623 11.160481 13.129883 11.118164 12.983398 C 11.075846 12.836914 11.025391 12.692058 10.966797 12.548828 C 10.908203 12.4056 10.846354 12.252604 10.78125 12.089844 L 15.576172 7.285156 C 15.745442 7.33724 15.90983 7.38444 16.069336 7.426758 C 16.22884 7.469076 16.399738 7.490235 16.582031 7.490234 Z "/>
+            </materialDesign:ToggleButtonAssist.OnContent>
+        </ToggleButton>
     </Grid>
 </Window>

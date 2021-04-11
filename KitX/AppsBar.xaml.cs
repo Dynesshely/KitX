@@ -40,7 +40,7 @@ namespace KitX
         [DllImport("user32.dll")]
         public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-        int hotkey; 
+        int hotkey;
         #endregion
 
         #region Window styles
@@ -161,9 +161,11 @@ namespace KitX
                     }
                     App.SaveConfig();
                 };
+                PinToScreen.IsChecked = Convert.ToBoolean(Library.FileHelper.Config.ReadValue($"{App.WorkBase}\\App.config", "AppsBarLockState"));
+                UpdatePinEvent(PinToScreen, null);
             };
 
-            openLAM_btn = LocalAppsManager_Btn;
+            KeyDown += AppsBar_KeyDown;
 
             Closing += (x, y) =>
             {
@@ -196,6 +198,59 @@ namespace KitX
         }
 
         /// <summary>
+        /// 键盘事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AppsBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            int targetIndex = 0;
+            switch (e.Key)
+            {
+                case Key.NumPad1:
+                    targetIndex = 1;
+                    break;
+                case Key.NumPad2:
+                    targetIndex = 2;
+                    break;
+                case Key.NumPad3:
+                    targetIndex = 3;
+                    break;
+                case Key.NumPad4:
+                    targetIndex = 4;
+                    break;
+                case Key.NumPad5:
+                    targetIndex = 5;
+                    break;
+                case Key.NumPad6:
+                    targetIndex = 6;
+                    break;
+                case Key.NumPad7:
+                    targetIndex = 7;
+                    break;
+                case Key.NumPad8:
+                    targetIndex = 8;
+                    break;
+                case Key.NumPad9:
+                    targetIndex = 9;
+                    break;
+            }
+            int ni = 1;
+            foreach (IContract item in Names.Values)
+            {
+                if (ni == targetIndex)
+                {
+                    item.Start();
+                    break;
+                }
+                else
+                {
+                    ni++;
+                }
+            }
+        }
+
+        /// <summary>
         /// 将窗口置顶并保持在所有虚拟桌面显示
         /// </summary>
         private void HideAltTab()
@@ -220,7 +275,8 @@ namespace KitX
             hWndSource = HwndSource.FromHwnd(wih.Handle);
             //添加处理程序
             hWndSource.AddHook(MainWindowProc);
-            hotkey = HotKey.GlobalAddAtom("Alt-K");
+            //hotkey = HotKey.GlobalAddAtom("Alt-K");
+            hotkey = HotKey.GlobalAddAtom(Library.FileHelper.Config.ReadValue($"{App.WorkBase}\\App.config", "GlobalHotKey"));
             HotKey.RegisterHotKey(wih.Handle, hotkey, HotKey.KeyModifiers.Alt, (int)System.Windows.Forms.Keys.K);
         }
 
@@ -232,6 +288,7 @@ namespace KitX
                     int sid = wParam.ToInt32();
                     if (sid == hotkey)
                     {
+                        Focus();
                         Animate();
                     }
                     handled = true;
@@ -477,6 +534,7 @@ namespace KitX
                 Docker.BeginAnimation(HeightProperty, Chrome_FadeOut);
             }
             CanAnimate = (sender as CheckBox).IsChecked != true;
+            Library.FileHelper.Config.WriteValue($"{App.WorkBase}\\App.config", "AppsBarLockState", Convert.ToString(!CanAnimate));
         }
 
         bool amated = false;
@@ -498,7 +556,6 @@ namespace KitX
 
         bool hasOpenedLAM = false;
         LocalAppsManager lam;
-        Button openLAM_btn;
 
         /// <summary>
         /// 打开本地应用管理器
@@ -535,6 +592,7 @@ namespace KitX
         public void AddLocalAppsIcon()
         {
             ClearLocalAppsIcons();
+            AddAddLAM_Btn();
             LoadAppsFromXML();
             foreach (XmlNode item in addedApps)
             {
@@ -559,8 +617,32 @@ namespace KitX
                 {
                     Process.Start(item.Attributes["path"].InnerText, item.Attributes["argument"].InnerText);
                 };
+                btn.MouseEnter += (x, y) =>
+                {
+                    AppInfoer.Text = $"{item.Attributes["name"].InnerText}\r\n{item.Attributes["path"].InnerText}";
+                };
                 localAppsLister.Children.Add(btn);
             }
+        }
+
+        /// <summary>
+        /// 添加打开本地应用管理器按钮
+        /// </summary>
+        private void AddAddLAM_Btn()
+        {
+            Button btn = new Button()
+            {
+                Width = 45, Height = 45, Style = new ResourceDictionary
+                {
+                    Source = new Uri("/KitX;component/PulseButton.xaml", UriKind.Relative)
+                }["PulseButton"] as Style, Content = new Image()
+                {
+                    Margin = new Thickness(5), Stretch = Stretch.Uniform,
+                    Source = new BitmapImage(new Uri("/Source/LocalApps.png", UriKind.Relative))
+                }
+            };
+            btn.Click += OpenLAM;
+            localAppsLister.Children.Add(btn);
         }
 
         /// <summary>
@@ -568,6 +650,7 @@ namespace KitX
         /// </summary>
         private void LoadAppsFromXML()
         {
+            addedApps.Clear();
             string contactsSavePath = $"{App.WorkBase}\\Config\\localapps.xml";
             XmlDocument apps = new XmlDocument();
             apps.Load(contactsSavePath);
@@ -584,15 +667,6 @@ namespace KitX
         /// <summary>
         /// 移除本地应用栏所有应用图标
         /// </summary>
-        private void ClearLocalAppsIcons()
-        {
-            foreach (Button item in localAppsLister.Children)
-            {
-                if (item != openLAM_btn)
-                {
-                    localAppsLister.Children.Remove(item);
-                }
-            }
-        }
+        private void ClearLocalAppsIcons() => localAppsLister.Children.Clear();
     }
 }
